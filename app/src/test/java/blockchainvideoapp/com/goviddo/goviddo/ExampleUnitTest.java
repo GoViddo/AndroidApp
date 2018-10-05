@@ -1,4 +1,4 @@
-package blockchainvideoapp.com.goviddo.goviddoandroid;
+package blockchainvideoapp.com.goviddo.goviddo;
 
 import org.junit.Test;
 

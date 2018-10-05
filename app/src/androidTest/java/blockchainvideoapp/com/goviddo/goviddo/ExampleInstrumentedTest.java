@@ -1,4 +1,4 @@
-package blockchainvideoapp.com.goviddo.goviddoandroid;
+package blockchainvideoapp.com.goviddo.goviddo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("blockchainvideoapp.com.goviddo.goviddoandroid", appContext.getPackageName());
+        assertEquals("blockchainvideoapp.com.goviddo.goviddo", appContext.getPackageName());
     }
 }
