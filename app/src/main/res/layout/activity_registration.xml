@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity"
-    android:layout_gravity="center_vertical"
+    tools:context=".activity.RegistrationActivity"
+    android:orientation="vertical"
     android:background="@mipmap/login_screen">
+
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,61 +19,74 @@
         android:orientation="vertical"
         android:scrollbars="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="center_vertical">
 
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageViewLoginLogo"
                 android:src="@drawable/logo_splash1"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="30dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:scaleType="center"
                 android:layout_gravity="center"/>
 
-            <TextView
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:autoSizeMinTextSize="16dp"
+            android:autoSizeMaxTextSize="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:textColor="@color/normalTextColor"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:padding="5dp"
-                android:textColor="@color/normalTextColor"/>
+                android:autoSizeMinTextSize="16dp"
+                android:autoSizeMaxTextSize="30dp"
+                android:id="@+id/textInputLayoutUserNameRegistration"
+                android:textColorHint="@color/normalTextColor"
+                app:errorTextAppearance="@color/errorTextColor"
+                app:hintTextAppearance="@color/normalTextColor">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
-
-                <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/textInputLayoutUserName"
+                    android:id="@+id/edtUserNameRegistration"
+                    android:inputType="textEmailAddress"
                     android:textColorHint="@color/normalTextColor"
-                    app:errorTextAppearance="@color/errorTextColor"
-                    app:hintTextAppearance="@color/normalTextColor">
+                    android:textColor="@color/normalTextColor"
+                    android:padding="5dp"
+                    android:autoSizeMinTextSize="16dp"
+                    android:autoSizeMaxTextSize="30dp"
+                    android:gravity="center_vertical"/>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/edtUserName"
-                        android:inputType="textEmailAddress"
-                        android:textColorHint="@color/normalTextColor"
-                        android:textColor="@color/normalTextColor"
-                        android:padding="5dp"
-                        android:gravity="center_vertical"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+
+
+
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -82,65 +96,114 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
+                android:autoSizeMinTextSize="16dp"
+                android:autoSizeMaxTextSize="30dp"
                 android:textColor="@color/normalTextColor"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
-                    android:id="@+id/textInputLayoutUserPassword"
+                    android:autoSizeMinTextSize="16dp"
+                    android:autoSizeMaxTextSize="30dp"
+                    android:id="@+id/textInputLayoutUserPasswordRegistration"
                     android:textColorHint="@color/normalTextColor"
                     app:errorTextAppearance="@color/errorTextColor"
-                    app:hintTextAppearance="@color/backgroundColorNormal">
+                    app:hintTextAppearance="@color/normalTextColor">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/edtUserPassword"
-                        android:inputType="textPassword"
+                        android:id="@+id/edtUserPasswordRegistration"
+                        android:inputType="textEmailAddress"
                         android:textColorHint="@color/normalTextColor"
                         android:textColor="@color/normalTextColor"
                         android:padding="5dp"
-                        android:gravity="center_vertical" />
+                        android:autoSizeMinTextSize="16dp"
+                        android:autoSizeMaxTextSize="30dp"
+                        android:gravity="center_vertical"/>
 
                 </android.support.design.widget.TextInputLayout>
-
             </LinearLayout>
+
+
+
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Re-Enter Password"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:autoSizeMinTextSize="16dp"
+                android:autoSizeMaxTextSize="30dp"
+                android:textColor="@color/normalTextColor"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:autoSizeMinTextSize="16dp"
+                    android:autoSizeMaxTextSize="30dp"
+                    android:id="@+id/textInputLayoutUserReenterPasswordRegistration"
+                    android:textColorHint="@color/normalTextColor"
+                    app:errorTextAppearance="@color/errorTextColor"
+                    app:hintTextAppearance="@color/normalTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/edtUserReenterPasswordRegistration"
+                        android:inputType="textEmailAddress"
+                        android:textColorHint="@color/normalTextColor"
+                        android:textColor="@color/normalTextColor"
+                        android:padding="5dp"
+                        android:autoSizeMinTextSize="16dp"
+                        android:autoSizeMaxTextSize="30dp"
+                        android:gravity="center_vertical"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
 
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="Login"
+                android:text="Sign up"
+                android:autoSizeMinTextSize="16dp"
+                android:autoSizeMaxTextSize="30dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:textColor="@color/normalTextColor"
                 android:background="@color/normalButtonColor"
-                android:id="@+id/btnLogin"/>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textRegisterNewUser"
-                android:text="@string/new_register"
-                android:layout_margin="20dp"
-                android:textColor="@color/normalTextColor"
-                android:textAlignment="center"
-                android:clickable="true"
-                android:textIsSelectable="false"/>
+                android:id="@+id/btnSignUp"/>
 
 
         </LinearLayout>
-
     </ScrollView>
 
 
-</RelativeLayout>
+</LinearLayout>
