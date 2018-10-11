@@ -42,7 +42,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.13"
+        android:layout_weight="0.11"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
@@ -52,7 +52,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.87"
+        android:layout_weight="0.89"
         android:layout_gravity="bottom"
         app:tabBackground="@color/backgroundColorNormalTabLayout"
         app:tabTextColor="@color/normalTextColor"

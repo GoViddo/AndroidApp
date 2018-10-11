@@ -88,6 +88,11 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void setupTabIcons() {
+
+       /* View view1 = getLayoutInflater().inflate(R.layout.custom_tablayout_image, null);
+        view1.findViewById(R.id.icon).setBackgroundResource(mTabIcons[0]);
+        mTabLayout.getTabAt(0).setCustomView(view1);*/
+
         mTabLayout.getTabAt(0).setIcon(mTabIcons[0]);
         mTabLayout.getTabAt(1).setIcon(mTabIcons[1]);
         mTabLayout.getTabAt(2).setIcon(mTabIcons[2]);
