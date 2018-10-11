@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (mLoginUserDetails.getEmail() != "")
         {
-            Intent loginIntent = new Intent(MainActivity.this,RegistrationActivity.class);
+            Intent loginIntent = new Intent(MainActivity.this,HomeActivity.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginIntent);
             finish();
@@ -151,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
             mTextInputLayoutUserName.setErrorEnabled(false);
             mTextInputLayoutUserPassword.setErrorEnabled(false);
 
-         //   mLoginUserDetails.setEmail(userName);
-         //   mLoginUserDetails.setPassword(password);
+            mLoginUserDetails.setEmail(userName);
+            mLoginUserDetails.setPassword(password);
 
             //Toast.makeText(LoginActivity.this, "Registration Successfull Please Verify Email", Toast.LENGTH_LONG).show();
             Intent loginIntent = new Intent(MainActivity.this,HomeActivity.class);
