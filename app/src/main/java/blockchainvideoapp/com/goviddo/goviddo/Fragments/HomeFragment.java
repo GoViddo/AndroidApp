@@ -1,29 +1,76 @@
 package blockchainvideoapp.com.goviddo.goviddo.Fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapter;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.EndlessRecyclerViewScrollListner;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerModel;
 
 public class HomeFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
+
+    // we will be loading 15 items per page or per load
+    // you can change this to fit your specifications.
+    // When you change this, there will be no need to update your php page,
+    // as php will be ordered what to load and limit by android java
+    private static final int LOAD_LIMIT = 15;
+
+    // last id to be loaded from php page,
+    // we will need to keep track or database id field to know which id was loaded last
+    // and where to begin loading
+    private String lastId = "0"; // this will issued to php page, so no harm make it string
+
+    // we need this variable to lock and unlock loading more
+    // e.g we should not load more when volley is already loading,
+    // loading will be activated when volley completes loading
+    private boolean itShouldLoadMore = true;
+
     private SliderLayout mDemoSlider;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    RecyclerView mRecyclerViewPreview;
+
+    private RecyclerAdapter mRecyclerAdapterPreview;
+    private ArrayList<RecyclerModel> mRecyclerModelsPreview;
+
+    ProgressWheel mProgressWheelPreview;
+
+    LinearLayoutManager mLayoutManager;
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +86,19 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         mDemoSlider = view.findViewById(R.id.slider);
+
+
+        mRecyclerModelsPreview = new ArrayList<>();
+
+        mRecyclerAdapterPreview = new RecyclerAdapter(mRecyclerModelsPreview);
+
+        mRecyclerViewPreview =  view.findViewById(R.id.loadmore_recycler_view);
+
+        mProgressWheelPreview =  view.findViewById(R.id.progress_wheel);
+
+
+
+
 
 
         HashMap<String,String> url_maps = new HashMap<String, String>();
@@ -74,9 +134,55 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mDemoSlider.addOnPageChangeListener(this);
 
 
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        mRecyclerViewPreview.setLayoutManager(mLayoutManager);
+        mRecyclerViewPreview.setHasFixedSize(true);
+
+        //we can now set adapter to recyclerView;
+        mRecyclerViewPreview.setAdapter(mRecyclerAdapterPreview);
+
+        firstLoadData();
+
+
+        mRecyclerViewPreview.addOnScrollListener(new EndlessRecyclerViewScrollListner( mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+              //  Toast.makeText(getActivity(),"LAst",Toast.LENGTH_LONG).show();
+                loadMore();
+            }
+        });
+
+
+
+
+
+        /*RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                int visibleItemCount = mLayoutManager.getChildCount();
+                int totalItemCount = mLayoutManager.getItemCount();
+                int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    Toast.makeText(getActivity(), "end of list", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };*/
+
+
+
+
+
+
+
+
 
         return view;
     }
+
+
+
 
 
     @Override
@@ -103,6 +209,191 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
     @Override
     public void onPageScrollStateChanged(int state) {}
+
+
+
+
+
+
+
+
+
+
+    // this function will load 15 items as indicated in the LOAD_LIMIT variable field
+    private void firstLoadData() {
+
+        String url = "http://goviddo.tech/goviddo_lazyloader/loadmore.php?limit="+LOAD_LIMIT;
+
+
+        itShouldLoadMore = false; // lock this guy,(itShouldLoadMore) to make sure,
+        // user will not load more when volley is processing another request
+        // only load more when  volley is free
+
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
+                // remember here we are in the main thread, that means,
+                //volley has finished processing request, and we have our response.
+                // What else are you waiting for? update itShouldLoadMore = true;
+                itShouldLoadMore = true;
+
+                if (response.length() <= 0) {
+                    // no data available
+                    Toast.makeText(getActivity(), "No data available", Toast.LENGTH_SHORT).show();
+
+                    return;
+                }
+
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(i);
+
+                        // please note this last id how we have updated it
+                        // if there are 4 items for example, and we are ordering in descending order,
+                        // then last id will be 1. This is because outside a loop, we will get the last
+                        // value [Thanks to JAVA]
+
+                        lastId = jsonObject.getString("id");
+                        String title = jsonObject.getString("title");
+                        String description = jsonObject.getString("description");
+
+                        mRecyclerModelsPreview.add(new RecyclerModel(title, description));
+                        mRecyclerAdapterPreview.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // please note how we have updated our last id variable which is initially 0 (String)
+                // outside the loop, java will return the last value, so here it will
+                // certainly give us lastId that we need
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // also here, volley is not processing, unlock it should load more
+                itShouldLoadMore = true;
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(), "network error!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        Volley.newRequestQueue(getActivity()).add(jsonArrayRequest);
+
+
+    }
+
+
+
+
+
+
+
+
+
+    private void loadMore() {
+
+
+        String url = "http://goviddo.tech/goviddo_lazyloader/loadmoreaction.php?lastId="+ lastId+"&limit="+LOAD_LIMIT;
+
+        // our php page starts loading from 250 to 1, because we have [ORDER BY id DESC]
+        // So until you clearly understand everything, for this tutorial use ORDER BY ID DESC
+        // so we will do something like this to the php page
+        //==============================================
+        // $limit = $_GET['limit']
+        // $lastId = $_GET['lastId']
+        // then [SELECT * FROM table_name WHERE id < $lastId ORDER_BY id DESC LIMIT $limit ]
+        // here we shall load 15 items from table where lastId id less than last loaded id
+
+        // if you are using [ASC] in sql, your query might change to tis
+        // then [SELECT * FROM table_name WHERE id > $lastId ORDER_BY id DESC LIMIT $limit ]
+        // for this tutorial let's stick to [DESC]
+
+
+        itShouldLoadMore = false; // lock this until volley completes processing
+
+        // progressWheel is just a loading spinner, please see the content_main.xml
+
+       // mProgressWheelPreview.setVisibility(View.VISIBLE);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+               // mProgressWheelPreview.setVisibility(View.GONE);
+
+                // since volley has completed and it has our response, now let's update
+                // itShouldLoadMore
+
+                itShouldLoadMore = true;
+
+                if (response.length() <= 0) {
+                    // we need to check this, to make sure, our dataStructure JSonArray contains
+                    // something
+                    Toast.makeText(getActivity(), "no data available", Toast.LENGTH_SHORT).show();
+                    return; // return will end the program at this point
+                }
+
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(i);
+
+                        // please note how we have updated the lastId variable
+                        // if there are 4 items for example, and we are ordering in descending order,
+                        // then last id will be 1. This is because outside a loop, we will get the last
+                        // value
+
+                        lastId = jsonObject.getString("id");
+                        String title = jsonObject.getString("title");
+                        String description = jsonObject.getString("description");
+
+                        mRecyclerModelsPreview.add(new RecyclerModel(title, description));
+                        mRecyclerAdapterPreview.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mProgressWheelPreview.setVisibility(View.GONE);
+                // volley finished and returned network error, update and unlock  itShouldLoadMore
+                itShouldLoadMore = true;
+                // Toast.makeText(getActivity(), "Failed to load more, network error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        Volley.newRequestQueue(getActivity()).add(jsonArrayRequest);
+
+    }
+
+
+
+    @Override
+    public void onStop() {
+        mDemoSlider.stopAutoCycle();
+        super.onStop();
+    }
+
+
+
+
+
+
+
 
 
 

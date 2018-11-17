@@ -49,6 +49,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private int[] mTabIcons;
 
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
