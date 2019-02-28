@@ -17,5 +17,7 @@
     <string name="action_sort_by_name">Sort By Name</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="Setting">Setting</string>
+    <string name="Signout">Sign Out</string>
 
 </resources>

@@ -1,39 +1,42 @@
 package blockchainvideoapp.com.goviddo.goviddo.adapter;
 
-
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerModel;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.Other_recycler;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    private ArrayList<RecyclerModel> recyclerModels; // this data structure carries our title and description
+public class RecyleAdapterOthers extends RecyclerView.Adapter<RecyleAdapterOthers.MyViewHolder> {
+private ArrayList<Other_recycler> recyclerModels; // this data structure carries our title and description
+
 
     int mPosition;
 
-    public RecyclerAdapter(ArrayList<RecyclerModel> recyclerModels) {
+    public RecyleAdapterOthers(ArrayList<Other_recycler> recyclerModels) {
         this.recyclerModels = recyclerModels;
+
     }
 
+
+
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyleAdapterOthers.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_row_layout_reviews, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate( R.layout.others_card, parent, false);
 
-        final MyViewHolder mViewHolder = new MyViewHolder(view);
+        final RecyleAdapterOthers.MyViewHolder mViewHolder = new RecyleAdapterOthers.MyViewHolder(view);
 
+        mViewHolder.textView.setText( recyclerModels.get( mPosition ).getTitle() );
 
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,14 +46,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         });
 
 
+
+
+
+
         // inflate your custom row layout here
         return mViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerAdapter.MyViewHolder holder, int position) {
-
+    public void onBindViewHolder(final RecyleAdapterOthers.MyViewHolder holder, int position) {
         mPosition = position;
+        holder.textView.setText(recyclerModels.get( mPosition ).getTitle()  );
 
     }
 
@@ -61,26 +68,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        // view this our custom row layout, so intialize your variables here
+        // view this our others_card layout, so intialize your variables here
 
         CardView cardView;
-        ImageView roundedImageView;
+        TextView textView;
 
         Context context;
+
 
         MyViewHolder(View view) {
             super(view);
 
-
-            roundedImageView = view.findViewById(R.id.title);
+            textView=view.findViewById( R.id.txtTitle );
             context = view.getContext();
-            cardView = view.findViewById(R.id.cardViewSingleItem);
-
+            cardView = view.findViewById(R.id.othersCard);
 
         }
 
 
     }
-}
+    }
+
+
+
 
 

@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
 
-public class SearchFragment extends Fragment {
+public class RecentFragment extends Fragment {
 
-    public SearchFragment() {
+    public RecentFragment() {
         // Required empty public constructor
     }
 
@@ -22,7 +22,9 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.search_fragment, container, false);
+        return inflater.inflate(R.layout.recent_fragment, container, false);
+
+
+
     }
 }
