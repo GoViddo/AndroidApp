@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class LoginUserDetails {
 
     SharedPreferences mSharedPreferences;
-    String mUserName,mUserPassword;
+    String mUserName,mUserPassword,mUserFirstName,mUserLastName,mUSerWalletName;
     Context mContext;
 
 
@@ -19,6 +19,37 @@ public class LoginUserDetails {
 
     public void removeUserInfo(){
         mSharedPreferences.edit().clear().commit();
+    }
+
+
+    public String getFirstName() {
+        mUserFirstName = mSharedPreferences.getString("First Name","");
+        return mUserFirstName;
+    }
+
+    public void setFirstName(String Firstname) {
+        this.mUserFirstName = Firstname;
+        mSharedPreferences.edit().putString("First Name",mUserFirstName).commit();
+    }
+
+    public String getLastName() {
+        mUserLastName = mSharedPreferences.getString("email","");
+        return mUserLastName;
+    }
+
+    public void setLastName(String LastName) {
+        this.mUserLastName = LastName;
+        mSharedPreferences.edit().putString("Last Name",mUserLastName).commit();
+    }
+
+    public String getWalletName() {
+        mUSerWalletName = mSharedPreferences.getString("Wallet Name","");
+        return mUSerWalletName;
+    }
+
+    public void setWalletName(String walletName) {
+        this.mUSerWalletName = walletName;
+        mSharedPreferences.edit().putString("Wallet Name",mUSerWalletName).commit();
     }
 
 

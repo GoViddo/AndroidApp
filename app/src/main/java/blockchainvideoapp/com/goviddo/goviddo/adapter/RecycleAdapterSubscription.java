@@ -35,10 +35,10 @@ public class RecycleAdapterSubscription extends RecyclerView.Adapter<RecycleAdap
         final RecycleAdapterSubscription.MyViewHolder mViewHolder = new RecycleAdapterSubscription.MyViewHolder(view);
 
 
-        mViewHolder.roundedImageView.setOnClickListener(new View.OnClickListener() {
+        mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getImage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getmTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -52,6 +52,9 @@ public class RecycleAdapterSubscription extends RecyclerView.Adapter<RecycleAdap
 
         mPosition = position;
 
+        holder.title.setText( recyclerModels.get( mPosition ).getmTitle() );
+
+
     }
 
 
@@ -64,7 +67,7 @@ public class RecycleAdapterSubscription extends RecyclerView.Adapter<RecycleAdap
         // view this our custom row layout, so intialize your variables here
         TextView title;
         ImageView roundedImageView;
-
+        CardView cardView;
         Context context;
 
         MyViewHolder(View view) {
@@ -74,7 +77,7 @@ public class RecycleAdapterSubscription extends RecyclerView.Adapter<RecycleAdap
             roundedImageView = view.findViewById(R.id.subscribe_img);
             context = view.getContext();
             title = view.findViewById( R.id.txtSubscribeTitle );
-
+            cardView = view.findViewById(R.id.Subscription_card);
 
         }
 

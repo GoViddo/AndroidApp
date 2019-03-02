@@ -32,10 +32,10 @@ import blockchainvideoapp.com.goviddo.goviddo.coreclass.LoginUserDetails;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    android.support.design.widget.TextInputLayout mTextInputLayoutUserName,mTextInputLayoutUserPassword, mTextInputLayoutUserConfirmPassword;
-    android.support.design.widget.TextInputEditText mEdtUserName,mEdtUserPassword, mEdtUserConfirmPassword;
+    android.support.design.widget.TextInputLayout mTextInputLayoutUserName,mTextInputLayoutUserPassword, mTextInputLayoutUserConfirmPassword,mTextInputLayoutUseFirstName,mTextInputLayoutUserLastName,mTextInputLayoutUserWalletName;
+    android.support.design.widget.TextInputEditText mEdtUserName,mEdtUserPassword, mEdtUserConfirmPassword,mEdtUserFirstName,mEdtUserLastName,mEdtUserWalletName;
     Button mBtnSignup;
-    String mUserName, mPassword, mConfirmPassword;
+    String mUserName, mPassword, mConfirmPassword,mUserFirstName,mUserLastName,mUserWalletName;
     Vibrator mVibrator;
     LoginUserDetails mLoginUserDetails;
 
@@ -63,10 +63,18 @@ public class RegistrationActivity extends AppCompatActivity {
         mTextInputLayoutUserName = findViewById(R.id.textInputLayoutUserNameRegistration);
         mTextInputLayoutUserPassword = findViewById(R.id.textInputLayoutUserPasswordRegistration);
         mTextInputLayoutUserConfirmPassword = findViewById(R.id.textInputLayoutUserReenterPasswordRegistration);
+        mTextInputLayoutUseFirstName = findViewById(R.id.textInputLayoutUserFirstName);
+        mTextInputLayoutUserLastName = findViewById(R.id.textInputLayoutUserLastName);
+        mTextInputLayoutUserWalletName = findViewById(R.id.textInputLayoutUserWalletName);
 
         mEdtUserName = findViewById(R.id.edtUserNameRegistration);
         mEdtUserPassword = findViewById(R.id.edtUserPasswordRegistration);
         mEdtUserConfirmPassword = findViewById(R.id.edtUserReenterPasswordRegistration);
+        mEdtUserFirstName = findViewById(R.id.edtUserFirstName);
+        mEdtUserLastName = findViewById(R.id.edtUserLastName);
+        mEdtUserWalletName = findViewById(R.id.edtUserWalletName);
+
+
 
 
         mBtnSignup = findViewById(R.id.btnSignUp);
@@ -79,13 +87,75 @@ public class RegistrationActivity extends AppCompatActivity {
                 mUserName = mEdtUserName.getText().toString();
                 mPassword = mEdtUserPassword.getText().toString();
                 mConfirmPassword = mEdtUserConfirmPassword.getText().toString();
+                mUserFirstName = mEdtUserFirstName.getText().toString();
+                mUserLastName = mEdtUserLastName.getText().toString();
+                mUserWalletName = mEdtUserWalletName.getText().toString();
 
-                submitForm(mUserName,mPassword, mConfirmPassword);
+
+                submitForm(mUserFirstName,mUserLastName,mUserWalletName,mUserName,mPassword, mConfirmPassword);
                 }
         });
         }
 
-        private boolean checkUserName(String userName) {
+
+    private boolean checkFirstName(String userName) {
+
+        userName = userName.trim();
+
+        if(userName.trim().isEmpty() || (userName.length() <= 3)){
+            mTextInputLayoutUseFirstName.setErrorEnabled( true );
+            mTextInputLayoutUseFirstName.setError( "Please Enter Valid First Name" );
+            return false;
+        }
+        mTextInputLayoutUseFirstName.setErrorEnabled( false );
+        return true;
+    }
+
+
+    private boolean checkLastName(String userName) {
+
+        userName = userName.trim();
+
+        if(userName.trim().isEmpty() || (userName.length() <= 3)){
+            mTextInputLayoutUserLastName.setErrorEnabled( true );
+            mTextInputLayoutUserLastName.setError( "Please Enter Valid Last Name" );
+            return false;
+        }
+        mTextInputLayoutUserLastName.setErrorEnabled( false );
+        return true;
+    }
+
+
+    private boolean checkWalletName(String userName) {
+
+        userName = userName.trim();
+
+        if(userName.trim().isEmpty() || !isValidWalletName(userName)){
+            mTextInputLayoutUserWalletName.setErrorEnabled( true );
+            mTextInputLayoutUserWalletName.setError( "Please Enter Valid Wallet Name" );
+            return false;
+        }
+        mTextInputLayoutUserWalletName.setErrorEnabled( false );
+        return true;
+    }
+
+    private boolean isValidWalletName(String userName) {
+
+        String pattern = "(?=.*[0-9])(?=.*[a-z]).{12,12}";
+        String pattern1 = "(?=.*[a-z]).{12,12}";
+
+        if(userName.matches( pattern ) || userName.matches( pattern1 ))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+
+        }
+
+
+    private boolean checkUserName(String userName) {
 
         userName = userName.trim();
 
@@ -144,7 +214,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
 
-    public void submitForm(String userName, String password, String confirmPassword)
+    public void submitForm(String firstname,String lastname,String walletName,String userName, String password, String confirmPassword)
     {
 
         if (!checkUserName(userName)){
@@ -161,23 +231,51 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
 
         }
+        else if (!checkFirstName(firstname)){
+            mVibrator.vibrate(1000);
+            return;
+
+        }
+        else if (!checkLastName(lastname)){
+            mVibrator.vibrate(1000);
+            return;
+
+        }
+        else if (!checkWalletName(walletName)){
+            mVibrator.vibrate(1000);
+            return;
+
+        }
         else {
             mTextInputLayoutUserName.setErrorEnabled(false);
             mTextInputLayoutUserPassword.setErrorEnabled(false);
             mTextInputLayoutUserConfirmPassword.setErrorEnabled(false);
-
+            mTextInputLayoutUseFirstName.setErrorEnabled(false);
+            mTextInputLayoutUserLastName.setErrorEnabled(false);
+            mTextInputLayoutUserWalletName.setErrorEnabled(false);
 
             JSONObject params = new JSONObject();
             try {
-                params.put("email", mUserName);
-                params.put("password", mPassword);
+
+                params.put("action", "Add_Employee");
+                params.put("email",userName);
+                params.put("password", password);
+                params.put("firstName",firstname);
+                params.put("lastName", lastname);
+                params.put("walletName", walletName);
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
+
+
+
 
             RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "https://goviddo.com/goviddoapis/register.php", new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/register\n"                    , new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
@@ -220,11 +318,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
 
 
 }
