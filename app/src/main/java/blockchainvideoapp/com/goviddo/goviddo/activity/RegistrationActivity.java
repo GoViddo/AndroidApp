@@ -292,16 +292,15 @@ public class RegistrationActivity extends AppCompatActivity {
             })
             {
                 @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("email", mUserName);
-                    params.put("password", mPassword);
-                    return params;
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    return headers;
                 }
-
             };
 
             requestQueue.add(jsonObjectRequest);
+          
 
               // mLoginUserDetails.setEmail(userName);
               // mLoginUserDetails.setPassword(password);
