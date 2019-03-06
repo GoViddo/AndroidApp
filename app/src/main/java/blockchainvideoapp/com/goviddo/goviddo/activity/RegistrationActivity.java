@@ -300,7 +300,7 @@ public class RegistrationActivity extends AppCompatActivity {
             };
 
             requestQueue.add(jsonObjectRequest);
-          
+
 
               // mLoginUserDetails.setEmail(userName);
               // mLoginUserDetails.setPassword(password);
