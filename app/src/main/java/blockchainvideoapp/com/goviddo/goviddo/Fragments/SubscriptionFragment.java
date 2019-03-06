@@ -51,10 +51,14 @@ public class SubscriptionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-       View view= inflater.inflate(R.layout.subscription_fragment, container, false);
+       View view = inflater.inflate(R.layout.subscription_fragment, container, false);
+
        String url ="https://pngimage.net/genie-aladdin-png-6/";
+
         mRecyclerModelsPreview = new ArrayList<Recycler_Subscription>();
+
         mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
         mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
         mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
@@ -76,8 +80,11 @@ public class SubscriptionFragment extends Fragment {
 
 
        //The Code for CardView in Subscription Tab will be as Below
+
         String urlcard ="https://pngimage.net/genie-aladdin-png-6/";
+
         mRecyclerModels = new ArrayList<Recycler_Subscription>();
+
         mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ) );
         mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
         mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));

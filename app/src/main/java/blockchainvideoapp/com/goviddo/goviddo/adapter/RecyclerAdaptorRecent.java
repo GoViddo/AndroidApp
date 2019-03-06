@@ -43,7 +43,7 @@ public class RecyclerAdaptorRecent extends RecyclerView.Adapter<RecyclerAdaptorR
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getmText(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getmTextFirst(), Toast.LENGTH_SHORT).show();
             }
         });
 

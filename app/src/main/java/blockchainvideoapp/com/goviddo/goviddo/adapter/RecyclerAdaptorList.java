@@ -32,11 +32,11 @@ public class RecyclerAdaptorList extends RecyclerView.Adapter<RecyclerAdaptorLis
     public RecyclerAdaptorList.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
-        View view = LayoutInflater.from(parent.getContext()).inflate( R.layout.recent_image, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate( R.layout.recent_list, parent, false);
 
         final RecyclerAdaptorList.MyViewHolder mViewHolder = new RecyclerAdaptorList.MyViewHolder(view);
 
-        mViewHolder.textView.setText( recyclerModels.get( mPosition ).getMtext() );
+       mViewHolder.textView.setText( recyclerModels.get( mPosition ).getMtext() );
 
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -166,8 +166,6 @@ public class MainActivity extends AppCompatActivity {
             mTextInputLayoutUserName.setErrorEnabled(false);
             mTextInputLayoutUserPassword.setErrorEnabled(false);
 
-            mLoginUserDetails.setEmail(userName);
-            mLoginUserDetails.setPassword(password);
 
             JSONObject params = new JSONObject();
             try {
@@ -177,10 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 params.put("password", password);
 
                 //Toast.makeText(LoginActivity.this, "Registration Successfull Please Verify Email", Toast.LENGTH_LONG).show();
-                Intent loginIntent = new Intent(MainActivity.this,HomeActivity.class);
-                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(loginIntent);
-                finish();
 
 
             } catch (JSONException e) {
@@ -193,18 +187,37 @@ public class MainActivity extends AppCompatActivity {
 
             RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/login\n"                    , new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/login", params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                    try {
+                        if(response.getString("message").equalsIgnoreCase("Login success")) {
+
+                            mLoginUserDetails.setEmail(response.getString("email"));
+                            mLoginUserDetails.setWalletName(response.getString("walletName"));
+
+
+                            Intent loginIntent = new Intent(MainActivity.this, HomeActivity.class);
+                            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(loginIntent);
+                            finish();
+
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
 
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Toast.makeText(MainActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please check login details", Toast.LENGTH_SHORT).show();
 
                 }
             })
@@ -216,6 +229,10 @@ public class MainActivity extends AppCompatActivity {
                     return headers;
                 }
             };
+
+            requestQueue.add(jsonObjectRequest);
+
+
 
         }
 

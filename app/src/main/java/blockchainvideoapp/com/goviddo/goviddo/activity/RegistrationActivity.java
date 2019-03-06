@@ -254,10 +254,12 @@ public class RegistrationActivity extends AppCompatActivity {
             mTextInputLayoutUserLastName.setErrorEnabled(false);
             mTextInputLayoutUserWalletName.setErrorEnabled(false);
 
+            walletName = walletName.trim();
+
             JSONObject params = new JSONObject();
             try {
 
-                params.put("action", "Add_Employee");
+
                 params.put("email",userName);
                 params.put("password", password);
                 params.put("firstName",firstname);
@@ -270,23 +272,42 @@ public class RegistrationActivity extends AppCompatActivity {
 
             }
 
+            System.out.println(params.toString());
 
 
 
-            RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
+            final RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/register\n"                    , new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/register", params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Toast.makeText(RegistrationActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
+
+
+                        try {
+                            if (response.getString("message").equals("Registration successful")) {
+                                Intent loginIntent = new Intent(RegistrationActivity.this, MainActivity.class);
+                                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(loginIntent);
+                                finish();
+
+                            }
+                            else {
+                                System.out.println(response.toString());
+                                Toast.makeText(RegistrationActivity.this,"User with this email already Exist",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
 
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Toast.makeText(RegistrationActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             })

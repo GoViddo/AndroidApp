@@ -1,6 +1,8 @@
 package blockchainvideoapp.com.goviddo.goviddo.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
+import blockchainvideoapp.com.goviddo.goviddo.activity.MainActivity;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.LoginUserDetails;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.Other_recycler;
 
 
@@ -41,6 +45,18 @@ private ArrayList<Other_recycler> recyclerModels; // this data structure carries
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (recyclerModels.get(mViewHolder.getPosition()).getTitle().equalsIgnoreCase("sign out"))
+                {
+                    LoginUserDetails loginUserDetails = new LoginUserDetails(mViewHolder.context);
+                    loginUserDetails.removeUserInfo();
+
+                    Intent intent = new Intent(mViewHolder.context, MainActivity.class);
+                    mViewHolder.context.startActivity(intent);
+                    ((Activity)mViewHolder.context).finish();
+
+                }
+
                 Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });

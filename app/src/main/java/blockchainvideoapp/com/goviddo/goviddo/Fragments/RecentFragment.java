@@ -49,6 +49,7 @@ public class RecentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recent_fragment, container, false);
+
         String url ="https://pngimage.net/genie-aladdin-png-6/";
         mRecyclerModelsRecentImage = new ArrayList<>();
         mRecyclerModelsRecentImage.add( new RecyclerRecent( url,"PS Films" ) );
