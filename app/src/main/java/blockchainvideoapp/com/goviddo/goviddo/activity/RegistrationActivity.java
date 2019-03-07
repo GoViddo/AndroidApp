@@ -259,11 +259,16 @@ public class RegistrationActivity extends AppCompatActivity {
             JSONObject params = new JSONObject();
             try {
 
+<<<<<<< HEAD
 
+=======
+                params.put("msg", "succesful");
+>>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
                 params.put("email",userName);
                 params.put("password", password);
                 params.put("firstName",firstname);
-                params.put("lastName", lastname);
+
+
                 params.put("walletName", walletName);
 
 
@@ -278,7 +283,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
             final RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
 
+<<<<<<< HEAD
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/register", params, new Response.Listener<JSONObject>() {
+=======
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/register" ,params , new Response.Listener<JSONObject>() {
+>>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
                 @Override
                 public void onResponse(JSONObject response) {
 

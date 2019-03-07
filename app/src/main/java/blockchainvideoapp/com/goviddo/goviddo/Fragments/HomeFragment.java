@@ -69,7 +69,14 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
     LinearLayoutManager mLayoutManager;
 
 
+    RecyclerView mRecyclerCardview;
 
+    private RecyclerAdapter mRecyclerAdapterCardview;
+    private ArrayList<RecyclerModel> mRecyclerModelsCardview;
+
+    ProgressWheel mProgressWheelCardview;
+
+    LinearLayoutManager mLayoutManagerCardview;
 
 
     @Override
@@ -95,6 +102,16 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mRecyclerViewPreview =  view.findViewById(R.id.loadmore_recycler_view);
 
         mProgressWheelPreview =  view.findViewById(R.id.progress_wheel);
+
+
+
+        //Initialization  For CardView Below Round Img
+
+        mRecyclerModelsCardview = new ArrayList<>();
+
+        mRecyclerAdapterCardview = new RecyclerAdapter(mRecyclerModelsCardview);
+
+        mRecyclerCardview =  view.findViewById(R.id.home_video_recycler);
 
 
 
@@ -157,18 +174,6 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
 
 
-        /*RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                int visibleItemCount = mLayoutManager.getChildCount();
-                int totalItemCount = mLayoutManager.getItemCount();
-                int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
-                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                    Toast.makeText(getActivity(), "end of list", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };*/
 
 
 

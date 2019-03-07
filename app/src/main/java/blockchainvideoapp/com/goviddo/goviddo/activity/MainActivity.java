@@ -166,13 +166,20 @@ public class MainActivity extends AppCompatActivity {
             mTextInputLayoutUserName.setErrorEnabled(false);
             mTextInputLayoutUserPassword.setErrorEnabled(false);
 
+<<<<<<< HEAD
 
+=======
+            mLoginUserDetails.setEmail(userName);
+
+
+>>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
             JSONObject params = new JSONObject();
             try {
 
 
                 params.put("email",userName);
                 params.put("password", password);
+<<<<<<< HEAD
 
                 //Toast.makeText(LoginActivity.this, "Registration Successfull Please Verify Email", Toast.LENGTH_LONG).show();
 
@@ -235,11 +242,57 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+=======
+                //Toast.makeText(LoginActivity.this, "Registration Successfull Please Verify Email", Toast.LENGTH_LONG).show();
+                Intent loginIntent = new Intent(MainActivity.this,HomeActivity.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(loginIntent);
+                finish();
+>>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
 
 
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+
+            }
+
+            RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/" ,params  , new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    Toast.makeText(MainActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            })
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+            };
+
+            requestQueue.add(jsonObjectRequest);
+
+
+
+
+
+    }
     }
 
 
 
-
 }
+
