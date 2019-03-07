@@ -180,7 +180,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
         mRecyclerCardview =  view.findViewById(R.id.video_image);
 
-        mLayoutManagerCardview = new LinearLayoutManager( getActivity(), LinearLayoutManager.HORIZONTAL, false );
+        mLayoutManagerCardview = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
 
         mRecyclerCardview.setLayoutManager( mLayoutManagerCardview );
         mRecyclerCardview.setHasFixedSize(true);
@@ -188,25 +188,9 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         //we can now set adapter to recyclerView;
         mRecyclerCardview.setAdapter( mRecyclerAdapterPreview );
 
-        firstLoadData();
-
-
-
-        mRecyclerCardview.addOnScrollListener(new EndlessRecyclerViewScrollListner( mLayoutManagerCardview) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                //  Toast.makeText(getActivity(),"LAst",Toast.LENGTH_LONG).show();
-                loadMore();
-            }
-        });
-
-
-
-
 
         return view;
     }
-
 
 
 
