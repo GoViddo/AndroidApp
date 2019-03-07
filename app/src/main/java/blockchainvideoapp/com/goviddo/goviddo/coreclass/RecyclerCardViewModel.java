@@ -5,9 +5,10 @@ public class RecyclerCardViewModel{
 String name,heading;
 int count;
 
-    public RecyclerCardViewModel(String heading,String name, int count) {
+
+
+    public RecyclerCardViewModel(String heading, int count) {
         this.heading = heading;
-        this.name = name;
         this.count = count;
     }
 

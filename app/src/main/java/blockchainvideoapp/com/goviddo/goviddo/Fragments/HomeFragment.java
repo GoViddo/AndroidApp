@@ -69,12 +69,18 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
     RecyclerView mRecyclerCardview;
 
-    private Home_RecyclerAdapter_Cardview mRecyclerAdapterCardview;
+    public static Home_RecyclerAdapter_Cardview mRecyclerAdapterCardview;
     private ArrayList<RecyclerCardViewModel> mRecyclerModelsCardview;
 
     ProgressWheel mProgressWheelCardview;
 
     LinearLayoutManager mLayoutManagerCardview;
+
+
+
+
+
+
 
 
     @Override
@@ -110,6 +116,9 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mRecyclerAdapterCardview = new Home_RecyclerAdapter_Cardview(mRecyclerModelsCardview);
 
         mRecyclerCardview =  view.findViewById(R.id.home_video_recycler);
+
+
+
 
 
 
@@ -172,21 +181,39 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
         //CardView Adapter Code
 
-        String url ="https://pngimage.net/genie-aladdin-png-6/";
-        mRecyclerModelsCardview.add( new RecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
-        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Drama", url,5 ) );
-        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Horror", url,5 ) );
+
+       // mRecyclerModelsCardview.add( new RecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
+        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Drama",5 ) );
+        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Horror",5 ) );
 
 
-        mRecyclerCardview =  view.findViewById(R.id.video_image);
 
-        mLayoutManagerCardview = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
+        mRecyclerAdapterCardview = new Home_RecyclerAdapter_Cardview(mRecyclerModelsCardview);
+
+
+        mLayoutManagerCardview= new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
 
         mRecyclerCardview.setLayoutManager( mLayoutManagerCardview );
-        mRecyclerCardview.setHasFixedSize(true);
 
         //we can now set adapter to recyclerView;
-        mRecyclerCardview.setAdapter( mRecyclerAdapterPreview );
+        mRecyclerCardview.setAdapter( mRecyclerAdapterCardview );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         return view;
@@ -397,14 +424,6 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mDemoSlider.stopAutoCycle();
         super.onStop();
     }
-
-
-
-
-
-
-
-
 
 
 

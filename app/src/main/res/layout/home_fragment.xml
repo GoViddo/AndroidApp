@@ -73,15 +73,16 @@
             </LinearLayout>
 
 
-<android.support.v7.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/home_video_recycler"
-    android:orientation="horizontal"
-    android:scrollbars="none">
+         <android.support.v7.widget.RecyclerView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/home_video_recycler"
+          android:isScrollContainer="true"
+          android:nestedScrollingEnabled="true"
+          android:orientation="horizontal"
+          android:scrollbars="none">
 
 </android.support.v7.widget.RecyclerView>
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
