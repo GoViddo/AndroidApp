@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -34,8 +30,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.Home_RecyclerAdapter_Cardview;
 import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapter;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.EndlessRecyclerViewScrollListner;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerCardViewModel;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerModel;
 
 public class HomeFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
@@ -71,8 +69,8 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
     RecyclerView mRecyclerCardview;
 
-    private RecyclerAdapter mRecyclerAdapterCardview;
-    private ArrayList<RecyclerModel> mRecyclerModelsCardview;
+    private Home_RecyclerAdapter_Cardview mRecyclerAdapterCardview;
+    private ArrayList<RecyclerCardViewModel> mRecyclerModelsCardview;
 
     ProgressWheel mProgressWheelCardview;
 
@@ -109,7 +107,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
         mRecyclerModelsCardview = new ArrayList<>();
 
-        mRecyclerAdapterCardview = new RecyclerAdapter(mRecyclerModelsCardview);
+        mRecyclerAdapterCardview = new Home_RecyclerAdapter_Cardview(mRecyclerModelsCardview);
 
         mRecyclerCardview =  view.findViewById(R.id.home_video_recycler);
 
@@ -162,6 +160,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         firstLoadData();
 
 
+
         mRecyclerViewPreview.addOnScrollListener(new EndlessRecyclerViewScrollListner( mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -171,13 +170,35 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         });
 
 
+        //CardView Adapter Code
+
+        String url ="https://pngimage.net/genie-aladdin-png-6/";
+        mRecyclerModelsCardview.add( new RecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
+        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Drama", url,5 ) );
+        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Horror", url,5 ) );
+
+
+        mRecyclerCardview =  view.findViewById(R.id.video_image);
+
+        mLayoutManagerCardview = new LinearLayoutManager( getActivity(), LinearLayoutManager.HORIZONTAL, false );
+
+        mRecyclerCardview.setLayoutManager( mLayoutManagerCardview );
+        mRecyclerCardview.setHasFixedSize(true);
+
+        //we can now set adapter to recyclerView;
+        mRecyclerCardview.setAdapter( mRecyclerAdapterPreview );
+
+        firstLoadData();
 
 
 
-
-
-
-
+        mRecyclerCardview.addOnScrollListener(new EndlessRecyclerViewScrollListner( mLayoutManagerCardview) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                //  Toast.makeText(getActivity(),"LAst",Toast.LENGTH_LONG).show();
+                loadMore();
+            }
+        });
 
 
 

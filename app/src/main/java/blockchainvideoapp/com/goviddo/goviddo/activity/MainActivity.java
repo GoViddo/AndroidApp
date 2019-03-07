@@ -150,38 +150,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void submitForm(String userName, String password)
-    {
+    public void submitForm(String userName, String password) {
 
-        if (!checkUserName(userName)){
-            mVibrator.vibrate(1000);
+        if (!checkUserName( userName )) {
+            mVibrator.vibrate( 1000 );
             return;
-        }
-        else if (!checkPassword(password)){
-            mVibrator.vibrate(1000);
+        } else if (!checkPassword( password )) {
+            mVibrator.vibrate( 1000 );
             return;
 
-        }
-        else {
-            mTextInputLayoutUserName.setErrorEnabled(false);
-            mTextInputLayoutUserPassword.setErrorEnabled(false);
-
-<<<<<<< HEAD
-
-=======
-            mLoginUserDetails.setEmail(userName);
+        } else {
+            mTextInputLayoutUserName.setErrorEnabled( false );
+            mTextInputLayoutUserPassword.setErrorEnabled( false );
 
 
->>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
+            mLoginUserDetails.setEmail( userName );
+
+
             JSONObject params = new JSONObject();
             try {
 
 
-                params.put("email",userName);
-                params.put("password", password);
-<<<<<<< HEAD
-
-                //Toast.makeText(LoginActivity.this, "Registration Successfull Please Verify Email", Toast.LENGTH_LONG).show();
+                params.put( "email", userName );
+                params.put( "password", password );
 
 
             } catch (JSONException e) {
@@ -190,29 +181,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+            RequestQueue requestQueue = Volley.newRequestQueue( MainActivity.this );
 
-
-            RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/login", params, new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.POST, "http://178.128.173.51:3000/login", params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
                     try {
-                        if(response.getString("message").equalsIgnoreCase("Login success")) {
+                        if (response.getString( "message" ).equalsIgnoreCase( "Login success" )) {
 
-                            mLoginUserDetails.setEmail(response.getString("email"));
-                            mLoginUserDetails.setWalletName(response.getString("walletName"));
+                            mLoginUserDetails.setEmail( response.getString( "email" ) );
+                            mLoginUserDetails.setWalletName( response.getString( "walletName" ) );
 
 
-                            Intent loginIntent = new Intent(MainActivity.this, HomeActivity.class);
-                            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(loginIntent);
+                            Intent loginIntent = new Intent( MainActivity.this, HomeActivity.class );
+                            loginIntent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+                            startActivity( loginIntent );
                             finish();
 
-                        }
-                        else{
-                            Toast.makeText(MainActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText( MainActivity.this, response.getString( "message" ), Toast.LENGTH_SHORT ).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -224,75 +212,25 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Toast.makeText(MainActivity.this, "Please check login details", Toast.LENGTH_SHORT).show();
+                    Toast.makeText( MainActivity.this, "Please check login details", Toast.LENGTH_SHORT ).show();
 
                 }
-            })
-            {
+            } ) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json");
+                    headers.put( "Content-Type", "application/json" );
                     return headers;
                 }
             };
 
-            requestQueue.add(jsonObjectRequest);
-
+            requestQueue.add( jsonObjectRequest );
 
 
         }
-=======
-                //Toast.makeText(LoginActivity.this, "Registration Successfull Please Verify Email", Toast.LENGTH_LONG).show();
-                Intent loginIntent = new Intent(MainActivity.this,HomeActivity.class);
-                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(loginIntent);
-                finish();
->>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
-
-
-
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-
-            }
-
-            RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/" ,params  , new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-
-                    Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    Toast.makeText(MainActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-
-                }
-            })
-            {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json");
-                    return headers;
-                }
-            };
-
-            requestQueue.add(jsonObjectRequest);
-
-
-
 
 
     }
-    }
-
-
 
 }
 

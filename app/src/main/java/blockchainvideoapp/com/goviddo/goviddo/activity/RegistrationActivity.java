@@ -30,6 +30,8 @@ import java.util.Map;
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.LoginUserDetails;
 
+import static com.android.volley.Request.Method.HEAD;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     android.support.design.widget.TextInputLayout mTextInputLayoutUserName,mTextInputLayoutUserPassword, mTextInputLayoutUserConfirmPassword,mTextInputLayoutUseFirstName,mTextInputLayoutUserLastName,mTextInputLayoutUserWalletName;
@@ -258,12 +260,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             JSONObject params = new JSONObject();
             try {
-
-<<<<<<< HEAD
-
-=======
                 params.put("msg", "succesful");
->>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
                 params.put("email",userName);
                 params.put("password", password);
                 params.put("firstName",firstname);
@@ -283,11 +280,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
             final RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
 
-<<<<<<< HEAD
+
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/register", params, new Response.Listener<JSONObject>() {
-=======
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://178.128.173.51:3000/register" ,params , new Response.Listener<JSONObject>() {
->>>>>>> ff5ab6225e738cf87fbcfff4ed5ffd035280110e
+
                 @Override
                 public void onResponse(JSONObject response) {
 
