@@ -1,6 +1,7 @@
 package blockchainvideoapp.com.goviddo.goviddo.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -26,10 +30,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
+import blockchainvideoapp.com.goviddo.goviddo.activity.HomeActivity;
+import blockchainvideoapp.com.goviddo.goviddo.activity.MainActivity;
 import blockchainvideoapp.com.goviddo.goviddo.adapter.Home_RecyclerAdapter_Cardview;
 import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapter;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.EndlessRecyclerViewScrollListner;
@@ -181,30 +189,85 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
         //CardView Adapter Code
 
-
-       // mRecyclerModelsCardview.add( new RecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
-        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Drama",5 ) );
-        mRecyclerModelsCardview.add( new RecyclerCardViewModel("Horror",5 ) );
+        String configuration_url = "http://178.128.173.51:3000/config";
 
 
 
-        mRecyclerAdapterCardview = new Home_RecyclerAdapter_Cardview(mRecyclerModelsCardview);
+        RequestQueue requestQueue = Volley.newRequestQueue( getActivity() );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.GET, "http://178.128.173.51:3000/config",  new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    String bannerIimageCount = response.getString( "bannerImgCount" );
+                    String categories = response.getString( "categories" );
+                    String[] aa = categories.split( "\\:",-1 );
+                    ArrayList<String> pushdata = new ArrayList<>(  );
+                    for (int i=1; i<aa.length; i++)
+                    {
+
+                            if(i%2 == 1)
+                            {
+                                String[] namearr = aa[i].split( ",", -1 );
+                                String namedisp = namearr[0].replaceAll( "\\'" ,"");
+
+                                //System.out.println(namedisp);
+                                pushdata.add( namedisp );
+                            }
+                            else{
+                                String[] countarr = aa[i].split( "\\}", -1 );
+                                String countdisp = countarr[0];
+                                //System.out.println(countdisp);
+                                pushdata.add( countdisp );
+                            }
+
+                    }
+
+                    for (int i=0; i<pushdata.size(); i++)
+                    {
+                        if(i%2 == 0) {
+                            mRecyclerModelsCardview.add( new RecyclerCardViewModel( pushdata.get( i ), Integer.parseInt( pushdata.get( i + 1 ) ) ) );
+                        }
+                    }
 
 
-        mLayoutManagerCardview= new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
 
-        mRecyclerCardview.setLayoutManager( mLayoutManagerCardview );
-
-        //we can now set adapter to recyclerView;
-        mRecyclerCardview.setAdapter( mRecyclerAdapterCardview );
+                    mRecyclerAdapterCardview = new Home_RecyclerAdapter_Cardview(mRecyclerModelsCardview);
 
 
+                    mLayoutManagerCardview= new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
+
+                    mRecyclerCardview.setLayoutManager( mLayoutManagerCardview );
+
+                    //we can now set adapter to recyclerView;
+                    mRecyclerCardview.setAdapter( mRecyclerAdapterCardview );
+                    mRecyclerAdapterCardview.notifyDataSetChanged();
 
 
 
 
+                    //System.out.println(categories.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
 
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText( getActivity(), "Network Error Home Fragment", Toast.LENGTH_SHORT ).show();
+
+            }
+        } );
+
+        requestQueue.add( jsonObjectRequest );
+
+        // mRecyclerModelsCardview.add( new RecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
+       // mRecyclerModelsCardview.add( new RecyclerCardViewModel("Horror",5 ) );
 
 
 

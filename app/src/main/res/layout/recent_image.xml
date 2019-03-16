@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/image_card_view"
         android:scrollbars="none"
+        android:layout_margin="6dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:cardBackgroundColor="@color/backgroundColorNormal"
         app:cardPreventCornerOverlap="false"

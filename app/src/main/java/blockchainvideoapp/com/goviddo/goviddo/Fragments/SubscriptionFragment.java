@@ -65,6 +65,8 @@ public class SubscriptionFragment extends Fragment {
         mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
         mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
         mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
         mRecyclerAdapterPreview = new RecycleAdapterSubscription(mRecyclerModelsPreview);
 
         mRecyclerViewPreview =  view.findViewById(R.id.recycle_subscribe_roundimg);
@@ -86,6 +88,10 @@ public class SubscriptionFragment extends Fragment {
         mRecyclerModels = new ArrayList<Recycler_Subscription>();
 
         mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ) );
+        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
         mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
         mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
         mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));

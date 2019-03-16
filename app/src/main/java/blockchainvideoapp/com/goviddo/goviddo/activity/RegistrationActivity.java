@@ -1,5 +1,6 @@
 package blockchainvideoapp.com.goviddo.goviddo.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
@@ -8,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -291,10 +295,29 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         try {
                             if (response.getString("message").equals("Registration successful")) {
-                                Intent loginIntent = new Intent(RegistrationActivity.this, MainActivity.class);
-                                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(loginIntent);
-                                finish();
+//                                Intent loginIntent = new Intent(RegistrationActivity.this, MainActivity.class);
+//                                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                startActivity(loginIntent);
+//                                finish();
+
+                                JSONArray jsActiveKeys = response.getJSONArray( "activeKeys" );
+                                JSONObject jsActiveKeysObject =  jsActiveKeys.getJSONObject( 0 );
+
+                                String avtivePrivateKey = jsActiveKeysObject.getString( "activePrivateKey" );
+                                String activePublicKey = jsActiveKeysObject.getString( "activePublicKey" );
+
+
+
+                                JSONArray jsOwnerKeys = response.getJSONArray( "ownerKeys" );
+                                JSONObject jsOwnerKeysObject =  jsOwnerKeys.getJSONObject( 0 );
+
+                                String ownerPrivateKey = jsActiveKeysObject.getString( "ownerPrivateKey" );
+                                String ownerPublicKey = jsActiveKeysObject.getString( "ownerPublicKey" );
+
+
+
+                                showCustomDialog();
+
 
                             }
                             else {
@@ -326,21 +349,30 @@ public class RegistrationActivity extends AppCompatActivity {
 
             requestQueue.add(jsonObjectRequest);
 
-
-              // mLoginUserDetails.setEmail(userName);
-              // mLoginUserDetails.setPassword(password);
-
-
-
-
-           /* Toast.makeText(RegistrationActivity.this, "Registration Successfull Please Verify Email", Toast.LENGTH_LONG).show();
-            Intent loginIntent = new Intent(RegistrationActivity.this,HomeActivity.class);
-            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(loginIntent);
-            finish();*/
         }
 
 
+    }
+
+
+
+    private void showCustomDialog() {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.alert_dialog_box, viewGroup, false);
+
+
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 
