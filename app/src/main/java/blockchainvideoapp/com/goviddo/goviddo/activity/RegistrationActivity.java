@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -264,12 +265,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
             JSONObject params = new JSONObject();
             try {
-                params.put("msg", "succesful");
+
                 params.put("email",userName);
                 params.put("password", password);
                 params.put("firstName",firstname);
-
-
+                params.put("lastName",lastname);
                 params.put("walletName", walletName);
 
 
@@ -300,10 +300,17 @@ public class RegistrationActivity extends AppCompatActivity {
 //                                startActivity(loginIntent);
 //                                finish();
 
+                               // System.out.println(response.toString());
+
+
+
                                 JSONArray jsActiveKeys = response.getJSONArray( "activeKeys" );
                                 JSONObject jsActiveKeysObject =  jsActiveKeys.getJSONObject( 0 );
 
-                                String avtivePrivateKey = jsActiveKeysObject.getString( "activePrivateKey" );
+                               // System.out.println(jsActiveKeysObject.toString());
+
+
+                                String activePrivateKey = jsActiveKeysObject.getString( "activePrivateKey" );
                                 String activePublicKey = jsActiveKeysObject.getString( "activePublicKey" );
 
 
@@ -311,12 +318,14 @@ public class RegistrationActivity extends AppCompatActivity {
                                 JSONArray jsOwnerKeys = response.getJSONArray( "ownerKeys" );
                                 JSONObject jsOwnerKeysObject =  jsOwnerKeys.getJSONObject( 0 );
 
-                                String ownerPrivateKey = jsActiveKeysObject.getString( "ownerPrivateKey" );
-                                String ownerPublicKey = jsActiveKeysObject.getString( "ownerPublicKey" );
+                                //System.out.println(jsOwnerKeysObject.toString());
 
+                                String ownerPrivateKey = jsOwnerKeysObject.getString( "ownerPrivateKey" );
+                                String ownerPublicKey = jsOwnerKeysObject.getString( "ownerPublicKey" );
 
+                                System.out.println(ownerPublicKey + "\n"+ ownerPrivateKey+"\n"+activePublicKey+"\n"+activePrivateKey);
 
-                                showCustomDialog();
+                                showCustomDialog(activePrivateKey, activePublicKey, ownerPrivateKey, ownerPublicKey);
 
 
                             }
@@ -356,12 +365,35 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-    private void showCustomDialog() {
+    private void showCustomDialog(String activePrivateKey, String activePublicKey, String ownerPrivateKey, String ownerPublicKey) {
+
+
+        String displayActivePrivateKey = activePrivateKey.substring(0,10);
+        String displayActivePublicKey = activePublicKey.substring(0,10);
+        String displayOwnerPrivateKey = ownerPrivateKey.substring(0,10);
+        String displayOwnerPublicKey = ownerPublicKey.substring(0,10);
+
+
         //before inflating the custom alert dialog layout, we will get the current activity viewgroup
         ViewGroup viewGroup = findViewById(android.R.id.content);
 
         //then we will inflate the custom alert dialog xml that we created
         View dialogView = LayoutInflater.from(this).inflate(R.layout.alert_dialog_box, viewGroup, false);
+
+
+        TextView textViewDisplayActivePublicKey = dialogView.findViewById(R.id.txtpublickey);
+        textViewDisplayActivePublicKey.setText(displayActivePublicKey);
+
+        TextView textViewDisplayActivePrivateKey = dialogView.findViewById(R.id.txtprivatekey);
+        textViewDisplayActivePrivateKey.setText(displayActivePrivateKey);
+
+        TextView textViewDisplayOwnerPublicKey = dialogView.findViewById(R.id.txtownerpublickey);
+        textViewDisplayOwnerPublicKey.setText(displayOwnerPublicKey);
+
+        TextView textViewDisplayOwnerPrivateKey = dialogView.findViewById(R.id.txtownerprivatekey);
+        textViewDisplayOwnerPrivateKey.setText(displayOwnerPrivateKey);
+
+        Button btnSaveKeys = dialogView.findViewById(R.id.btnSave);
 
 
         //Now we need an AlertDialog.Builder object
