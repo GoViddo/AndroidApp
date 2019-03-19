@@ -6,58 +6,94 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="15dp">
+    android:layout_margin="15dp"
+    android:background="#ffffff">
     
     
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="active Keys"
-        android:id="@+id/txtactive"/>
+        android:text="Active Keys"
+        android:id="@+id/txtactive"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"
+        android:textColor="#000000"
+        android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="public - "
-        android:id="@+id/txtpublicactive"/>
+        android:text="Public : "
+        android:id="@+id/txtpublicactive"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"
+        android:textColor="#000000"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtpublickey"/>
+        android:gravity="center"
+        android:id="@+id/txtpublickey"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"
+        android:textColor="#000000"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="private - "
-        android:id="@+id/txtprivateactive"/>
+        android:text="Private : "
+        android:id="@+id/txtprivateactive"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"
+        android:textColor="#000000"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtprivatekey"/>
+        android:id="@+id/txtprivatekey"
+        android:gravity="center"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"
+        android:textColor="#000000"/>
+
     <TextView
+        android:id="@+id/txtowner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="owner Keys"
-        android:id="@+id/txtowner"/>
+        android:layout_margin="2dp"
+        android:text="Owner Keys"
+        android:textSize="@dimen/normal_text_size"
+        android:textColor="#000000"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="public - "
-        android:id="@+id/txtpublicowner"/>
+        android:text="Public : "
+        android:id="@+id/txtpublicowner"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtownerpublickey"/>
+        android:id="@+id/txtownerpublickey"
+        android:gravity="center"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="private - "
-        android:id="@+id/txtprivateowner"/>
+        android:text="Private : "
+        android:id="@+id/txtprivateowner"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"
+        android:textColor="#000000"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtownerprivatekey"/>
+        android:id="@+id/txtownerprivatekey"
+        android:gravity="center"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_margin="2dp"
+        android:textColor="#000000"/>
 
 
     <Button
@@ -65,7 +101,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Save"
+<<<<<<< HEAD
         android:id="@+id/btnSaveKeys"/>
+=======
+        android:id="@+id/btnSave"
+        android:layout_margin="2dp"
+        android:background="#ff0000"
+        android:textColor="#ffffff"/>
+>>>>>>> 1482c9c3908b518afde8a32e98f83bc962b70ca8
 
 
 </LinearLayout>
