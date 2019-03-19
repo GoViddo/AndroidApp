@@ -4,7 +4,7 @@
     android:layout_width="72dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_image_card_view"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardPreventCornerOverlap="false"
     xmlns:wheel="http://schemas.android.com/tools">
