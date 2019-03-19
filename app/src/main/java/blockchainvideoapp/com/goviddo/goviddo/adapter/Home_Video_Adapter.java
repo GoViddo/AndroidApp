@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class Home_Video_Adapter extends RecyclerView.Adapter<Home_Video_Adapter.
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, recyclerModels.get(mViewHolder.getPosition()).getHeading(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, recyclerModels.get(mViewHolder.getPosition()).getVideoid(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -53,6 +55,9 @@ public class Home_Video_Adapter extends RecyclerView.Adapter<Home_Video_Adapter.
     @Override
     public void onBindViewHolder(final Home_Video_Adapter.MyViewHolder holder, int position) {
         mPosition = position;
+
+        Picasso.with( mContext).load( recyclerModels.get( position ).getUrl() ).into( holder.ImageView );
+
     }
 
 
@@ -75,6 +80,7 @@ public class Home_Video_Adapter extends RecyclerView.Adapter<Home_Video_Adapter.
 
 
             ImageView = view.findViewById(R.id.video_image);
+            Picasso.with( mContext ).load(u  ).into(ImageView );
             cardView = view.findViewById(R.id.video_image_card_view);
 
 

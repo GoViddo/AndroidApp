@@ -1,38 +1,56 @@
 package blockchainvideoapp.com.goviddo.goviddo.coreclass;
 
-public class RecyclerCardViewModel{
+import android.widget.ImageView;
 
-String name,heading;
-int count;
+public class RecyclerCardViewModel {
+
+    String name, heading, url, short_text;
+    int count, vdo_cipherid, videoid;
 
 
+//    public RecyclerCardViewModel(String heading, int count) {
+//        this.heading = heading;
+//        this.count = count;
+//    }
 
-    public RecyclerCardViewModel(String heading, int count) {
-        this.heading = heading;
-        this.count = count;
+    public RecyclerCardViewModel(String url, String short_text, int vdo_cipherid, int videoid) {
+        this.url = url;
+        this.short_text = short_text;
+        this.vdo_cipherid = vdo_cipherid;
+        this.videoid = videoid;
+
     }
 
-    public String getHeading() {
-        return heading;
+    public String getUrl() {
+        return url;
     }
 
-    public void setHeading(String heading) {
-        this.heading = heading;
+    public String getShort_text() {
+        return short_text;
     }
 
-    public String getName() {
-        return name;
+    public int getVdo_cipherid() {
+        return vdo_cipherid;
     }
 
-    public int getCount() {
-        return count;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShort_text(String short_text) {
+        this.short_text = short_text;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setVdo_cipherid(int vdo_cipherid) {
+        this.vdo_cipherid = vdo_cipherid;
+    }
+
+    public void setVideoid(int videoid) {
+        this.videoid = videoid;
+    }
+
+    public int getVideoid() {
+        return videoid;
+
     }
 }
