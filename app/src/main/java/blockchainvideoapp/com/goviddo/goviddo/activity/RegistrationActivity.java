@@ -1,13 +1,19 @@
 package blockchainvideoapp.com.goviddo.goviddo.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.os.Vibrator;
 import android.service.autofill.RegexValidator;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +35,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,11 +59,33 @@ public class RegistrationActivity extends AppCompatActivity {
 
     TextView mTextViewNewUserRegistration;
 
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        verifyStoragePermissions(this);
+
 
         mLoginUserDetails = new LoginUserDetails(this);
 
@@ -325,7 +358,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                                 System.out.println(ownerPublicKey + "\n"+ ownerPrivateKey+"\n"+activePublicKey+"\n"+activePrivateKey);
 
-                                showCustomDialog(activePrivateKey, activePublicKey, ownerPrivateKey, ownerPublicKey);
+                                showCustomDialog(activePrivateKey, activePublicKey, ownerPrivateKey, ownerPublicKey,RegistrationActivity.this);
 
 
                             }
@@ -365,11 +398,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-    private void showCustomDialog(String activePrivateKey, String activePublicKey, String ownerPrivateKey, String ownerPublicKey) {
+    private void showCustomDialog(String activePrivateKey, String activePublicKey, String ownerPrivateKey, String ownerPublicKey, final Context context) {
 
-
-        String displayActivePrivateKey = activePrivateKey.substring(0,10);
-        String displayActivePublicKey = activePublicKey.substring(0,10);
+        final String displayActivePrivateKey = activePrivateKey.substring(0,10);
+        final String displayActivePublicKey = activePublicKey.substring(0,10);
         String displayOwnerPrivateKey = ownerPrivateKey.substring(0,10);
         String displayOwnerPublicKey = ownerPublicKey.substring(0,10);
 
@@ -393,7 +425,35 @@ public class RegistrationActivity extends AppCompatActivity {
         TextView textViewDisplayOwnerPrivateKey = dialogView.findViewById(R.id.txtownerprivatekey);
         textViewDisplayOwnerPrivateKey.setText(displayOwnerPrivateKey);
 
-        Button btnSaveKeys = dialogView.findViewById(R.id.btnSave);
+        Button btnSaveKeys = dialogView.findViewById(R.id.btnSaveKeys);
+
+        btnSaveKeys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                //File path = context.getDir("mydir", Context.MODE_PRIVATE);
+                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+                System.out.println(path);
+                File file = new File(path, "goviddowalletkeys.txt");
+
+                String data = "Public Keys - \n Active Public Key : \t"+displayActivePublicKey+"\n Active Private Key : \t"+displayActivePrivateKey;
+
+                FileOutputStream stream = null;
+                try {
+                    stream = new FileOutputStream(file);
+                    stream.write(data.getBytes());
+                    stream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
 
 
         //Now we need an AlertDialog.Builder object
