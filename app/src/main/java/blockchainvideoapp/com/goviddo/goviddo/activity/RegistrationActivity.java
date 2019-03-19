@@ -4,10 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.service.autofill.RegexValidator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +72,7 @@ public class RegistrationActivity extends AppCompatActivity {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
@@ -75,8 +80,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
+
+
         }
+
     }
+
 
 
     @Override
@@ -84,8 +93,37 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        verifyStoragePermissions(this);
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("We need only storage permission to store the your wallet keys. \n\nThis is must because these are one time keys and we are not storing these anywhere. Without these keys you can't use your wallet.");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "Open Settings",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            verifyStoragePermissions(RegistrationActivity.this);
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+        }
+
+
+
+
+
+
+
+        verifyStoragePermissions(this);
 
         mLoginUserDetails = new LoginUserDetails(this);
 
@@ -400,10 +438,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void showCustomDialog(String activePrivateKey, String activePublicKey, String ownerPrivateKey, String ownerPublicKey, final Context context) {
 
-        final String displayActivePrivateKey = activePrivateKey.substring(0,10);
-        final String displayActivePublicKey = activePublicKey.substring(0,10);
-        String displayOwnerPrivateKey = ownerPrivateKey.substring(0,10);
-        String displayOwnerPublicKey = ownerPublicKey.substring(0,10);
+        final String displayActivePrivateKey = activePrivateKey;
+        final String displayActivePublicKey = activePublicKey;
+        final String displayOwnerPrivateKey = ownerPrivateKey;
+        final String displayOwnerPublicKey = ownerPublicKey;
 
 
         //before inflating the custom alert dialog layout, we will get the current activity viewgroup
@@ -427,34 +465,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         Button btnSaveKeys = dialogView.findViewById(R.id.btnSaveKeys);
 
-        btnSaveKeys.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                //File path = context.getDir("mydir", Context.MODE_PRIVATE);
-                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-                System.out.println(path);
-                File file = new File(path, "goviddowalletkeys.txt");
-
-                String data = "Public Keys - \n Active Public Key : \t"+displayActivePublicKey+"\n Active Private Key : \t"+displayActivePrivateKey;
-
-                FileOutputStream stream = null;
-                try {
-                    stream = new FileOutputStream(file);
-                    stream.write(data.getBytes());
-                    stream.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-
-            }
-        });
-
 
         //Now we need an AlertDialog.Builder object
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -463,7 +473,67 @@ public class RegistrationActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         //finally creating the alert dialog and displaying it
-        AlertDialog alertDialog = builder.create();
+        final AlertDialog alertDialog = builder.create();
+
+        btnSaveKeys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int permission = ActivityCompat.checkSelfPermission(RegistrationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                long millisStart = Calendar.getInstance().getTimeInMillis();
+
+                String data = "Public Keys - \n Active Public Key : \t" + displayActivePublicKey + "\n Active Private Key : \t" + displayActivePrivateKey + "\n \n \n \nOwner Key - \n Owner Public Key : \t"+displayOwnerPublicKey+"\n Owner Private Key : \t"+displayOwnerPrivateKey ;
+
+
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+
+                    File path = context.getDir("mydir", Context.MODE_PRIVATE);
+                    System.out.println(path);
+
+
+                    File file = new File(path, "EOSWalletKeys_"+millisStart+".txt");
+
+
+                    FileOutputStream stream = null;
+                    try {
+                        stream = new FileOutputStream(file);
+                        stream.write(data.getBytes());
+                        stream.close();
+                        alertDialog.cancel();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+                else {
+                    File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+                    System.out.println(path);
+                    File file = new File(path, "EOSWalletKeys_"+millisStart+".txt");
+
+
+                    FileOutputStream stream = null;
+                    try {
+                        stream = new FileOutputStream(file);
+                        stream.write(data.getBytes());
+                        stream.close();
+                        alertDialog.cancel();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+        });
+
+
+
         alertDialog.show();
     }
 
