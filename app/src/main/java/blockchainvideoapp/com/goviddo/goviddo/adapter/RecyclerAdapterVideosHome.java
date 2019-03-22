@@ -7,43 +7,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerCardViewModel;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerCardViewModel;
 
-public class Home_Video_Adapter extends RecyclerView.Adapter<Home_Video_Adapter.MyViewHolder> {
+public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdapterVideosHome.MyViewHolder> {
 
-    private ArrayList<RecyclerCardViewModel> recyclerModels; // this data structure carries our title and description
+    private ArrayList<HomeRecyclerCardViewModel> mHomeCardrecyclerModels; // this data structure carries our title and description
 
     int mPosition;
     Context mContext;
 
-    public Home_Video_Adapter(ArrayList<RecyclerCardViewModel> recyclerModels, Context context) {
-        this.recyclerModels = recyclerModels;
+    public RecyclerAdapterVideosHome(ArrayList<HomeRecyclerCardViewModel> recyclerModels, Context context) {
+        this.mHomeCardrecyclerModels = recyclerModels;
         mContext = context;
     }
 
     @Override
-    public Home_Video_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdapterVideosHome.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_image_recycler, parent, false);
 
-        final Home_Video_Adapter.MyViewHolder mViewHolder = new Home_Video_Adapter.MyViewHolder(view);
+        final RecyclerAdapterVideosHome.MyViewHolder mViewHolder = new RecyclerAdapterVideosHome.MyViewHolder(view);
 
 
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, recyclerModels.get(mViewHolder.getPosition()).getVideoid(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVideoid(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -53,17 +50,17 @@ public class Home_Video_Adapter extends RecyclerView.Adapter<Home_Video_Adapter.
     }
 
     @Override
-    public void onBindViewHolder(final Home_Video_Adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerAdapterVideosHome.MyViewHolder holder, int position) {
         mPosition = position;
 
-        Picasso.with( mContext).load( recyclerModels.get( position ).getUrl() ).into( holder.ImageView );
+        Picasso.with( mContext).load( mHomeCardrecyclerModels.get( position ).getUrl() ).into( holder.ImageView );
 
     }
 
 
     @Override
     public int getItemCount() {
-        return recyclerModels.size();
+        return mHomeCardrecyclerModels.size();
     }
 
 
@@ -80,7 +77,7 @@ public class Home_Video_Adapter extends RecyclerView.Adapter<Home_Video_Adapter.
 
 
             ImageView = view.findViewById(R.id.video_image);
-            Picasso.with( mContext ).load(u  ).into(ImageView );
+            Picasso.with( mContext ).load( mHomeCardrecyclerModels.get( mPosition ).getUrl() ).into( ImageView  );
             cardView = view.findViewById(R.id.video_image_card_view);
 
 

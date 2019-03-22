@@ -1,17 +1,17 @@
 package blockchainvideoapp.com.goviddo.goviddo.coreclass;
 
-public class RecyclerRecent {
+public class RecentRecyclerModel {
 
     private String mTextFirst;
     private String mImage;
     private String mtext;
 
-    public RecyclerRecent(String mImage, String mText) {
+    public RecentRecyclerModel(String mImage, String mText) {
         this.mTextFirst = mText;
         this.mImage = mImage;
     }
 
-    public RecyclerRecent( String mText) {
+    public RecentRecyclerModel(String mText) {
         this.mtext = mText;
     }
 

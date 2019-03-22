@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,10 +14,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,35 +25,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import blockchainvideoapp.com.goviddo.goviddo.Fragments.HomeFragment;
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.EndlessRecyclerViewScrollListner;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerCardViewModel;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerModel;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerCardViewModel;
 
-public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_RecyclerAdapter_Cardview.MyViewHolder> {
+public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAdapterCardviewHome.MyViewHolder> {
 
 
-    private ArrayList<RecyclerCardViewModel> recyclerModels; // this data structure carries our title and description
+    private ArrayList<HomeRecyclerCardViewModel> mHomeRecyclerModels; // this data structure carries our title and description
 
     int mPosition;
     private boolean itShouldLoadMore = true;
 
 
 
-    private Home_Video_Adapter mRecyclerAdapterVideo;
-    private ArrayList<RecyclerCardViewModel> mRecyclerModelsVideo;
+    private RecyclerAdapterVideosHome mRecyclerAdapterVideo;
+    private ArrayList<HomeRecyclerCardViewModel> mRecyclerModelsVideo;
     LinearLayoutManager mLinearLayoutManagerVideo;
 
     String url1 ="https://pngimage.net/genie-aladdin-png-6/";
 
 
-    public Home_RecyclerAdapter_Cardview(ArrayList<RecyclerCardViewModel> recyclerModels) {
-        this.recyclerModels = recyclerModels;
+    public RecyclerAdapterCardviewHome(ArrayList<HomeRecyclerCardViewModel> recyclerModels) {
+        this.mHomeRecyclerModels = recyclerModels;
     }
 
     @Override
-    public Home_RecyclerAdapter_Cardview.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdapterCardviewHome.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
         View view = LayoutInflater.from( parent.getContext() ).inflate( R.layout.home_video, parent, false );
@@ -69,7 +64,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
         mViewHolder.textView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText( mViewHolder.context, recyclerModels.get( mViewHolder.getPosition() ).getHeading(), Toast.LENGTH_SHORT ).show();
+                Toast.makeText( mViewHolder.context, mHomeRecyclerModels.get( mViewHolder.getPosition() ).getHeading(), Toast.LENGTH_SHORT ).show();
             }
         } );
 
@@ -79,7 +74,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
     }
 
     @Override
-    public void onBindViewHolder(final Home_RecyclerAdapter_Cardview.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerAdapterCardviewHome.MyViewHolder holder, int position) {
 
         mPosition = position;
 
@@ -90,9 +85,9 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
         mRecyclerModelsVideo = new ArrayList<>();
 
 
-            holder.textView.setText(recyclerModels.get( mPosition ).getHeading()  );
+            holder.textView.setText(mHomeRecyclerModels.get( mPosition ).getHeading()  );
 
-            mRecyclerAdapterVideo = new Home_Video_Adapter(mRecyclerModelsVideo, holder.context);
+            mRecyclerAdapterVideo = new RecyclerAdapterVideosHome(mRecyclerModelsVideo, holder.context);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(holder.context, LinearLayoutManager.HORIZONTAL, false);
 
         holder.recyclerView.setLayoutManager(mLayoutManager);
@@ -100,7 +95,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
 
         holder.recyclerView.setAdapter(mRecyclerAdapterVideo);
 
-        firstLoadData(holder.context, recyclerModels.get( mPosition ).getHeading(),  recyclerModels.get( mPosition ).getCount(), 0, mRecyclerModelsVideo, mRecyclerAdapterVideo );
+        firstLoadData(holder.context, mHomeRecyclerModels.get( mPosition ).getHeading(),  mHomeRecyclerModels.get( mPosition ).getCount(), 0, mRecyclerModelsVideo, mRecyclerAdapterVideo );
 
 
 
@@ -108,7 +103,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 //  Toast.makeText(getActivity(),"LAst",Toast.LENGTH_LONG).show();
-                firstLoadData(holder.context, recyclerModels.get( mPosition ).getHeading(),  recyclerModels.get( mPosition ).getCount(), 17, mRecyclerModelsVideo, mRecyclerAdapterVideo );
+                firstLoadData(holder.context, mHomeRecyclerModels.get( mPosition ).getHeading(), mHomeRecyclerModels.get( mPosition ).getCount(), 17, mRecyclerModelsVideo, mRecyclerAdapterVideo );
 
             }
         });
@@ -123,7 +118,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
             holder.recyclerView.setHasFixedSize(true);
 
             //we can now set adapter to recyclerView;
-            Toast.makeText(holder.context, "size"+recyclerModels.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(holder.context, "size"+mHomeRecyclerModels.size(), Toast.LENGTH_SHORT).show();
 
 
     }
@@ -131,7 +126,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
 
     @Override
     public int getItemCount() {
-        return recyclerModels.size();
+        return mHomeRecyclerModels.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -157,7 +152,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
 
 
     // this function will load 15 items as indicated in the LOAD_LIMIT variable field
-    private void firstLoadData(final Context context, String videoGenere, int videoLimit, int videoLastId, final ArrayList<RecyclerCardViewModel> recyclerCardViewModel, final Home_Video_Adapter home_video_adapter ) {
+    private void firstLoadData(final Context context, String videoGenere, int videoLimit, int videoLastId, final ArrayList<HomeRecyclerCardViewModel> homeRecyclerCardViewModel, final RecyclerAdapterVideosHome recycler_adapterVideosHome) {
 
         String url = "http://178.128.173.51:3000/getVideoData";
         System.out.println(url);
@@ -219,7 +214,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String home_image_url = jsonObject1.getString("home_image");
 
-                                recyclerCardViewModel.add(new RecyclerCardViewModel(home_image_url,10));
+                                homeRecyclerCardViewModel.add(new HomeRecyclerCardViewModel(home_image_url,10));
 
 
                             }
@@ -227,7 +222,7 @@ public class Home_RecyclerAdapter_Cardview extends RecyclerView.Adapter<Home_Rec
                         }
 
 
-                        home_video_adapter.notifyDataSetChanged();
+                        recycler_adapterVideosHome.notifyDataSetChanged();
 
                     } catch (JSONException e) {
                         e.printStackTrace();

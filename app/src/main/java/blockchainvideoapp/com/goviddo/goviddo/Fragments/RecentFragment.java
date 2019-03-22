@@ -11,14 +11,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecycleAdapterSubscription;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecycleAdapterSubscriptionCard;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdaptorList;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdaptorListRecent;
 import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdaptorRecent;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyleAdapterOthers;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.Other_recycler;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerRecent;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.Recycler_Subscription;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecentRecyclerModel;
 
 public class RecentFragment extends Fragment {
 
@@ -28,13 +23,13 @@ public class RecentFragment extends Fragment {
 
     RecyclerView mRecyclerViewRecentImage;
     private RecyclerAdaptorRecent mRecyclerAdapterRecentImage;
-    private ArrayList<RecyclerRecent> mRecyclerModelsRecentImage;
+    private ArrayList<RecentRecyclerModel> mRecyclerModelsRecentImage;
     LinearLayoutManager mLinearLayoutManagerRecentImage;
 
 
     RecyclerView mRecyclerViewRecentList;
-    private RecyclerAdaptorList mRecyclerAdapterRecentList;
-    private ArrayList<RecyclerRecent> mRecyclerModelsRecentList;
+    private RecyclerAdaptorListRecent mRecyclerAdapterRecentList;
+    private ArrayList<RecentRecyclerModel> mRecyclerModelsRecentList;
     LinearLayoutManager mLinearLayoutManagerRecentList;
 
 
@@ -52,12 +47,12 @@ public class RecentFragment extends Fragment {
 
         String url ="https://pngimage.net/genie-aladdin-png-6/";
         mRecyclerModelsRecentImage = new ArrayList<>();
-        mRecyclerModelsRecentImage.add( new RecyclerRecent( url,"PS Films" ) );
-        mRecyclerModelsRecentImage.add( new RecyclerRecent( url,"PS Films" ) );
-        mRecyclerModelsRecentImage.add( new RecyclerRecent( url,"PS Films" ) );
-        mRecyclerModelsRecentImage.add( new RecyclerRecent( url,"PS Films" ) );
-        mRecyclerModelsRecentImage.add( new RecyclerRecent( url,"PS Films" ) );
-        mRecyclerModelsRecentImage.add( new RecyclerRecent( url,"PS Films" ) );
+        mRecyclerModelsRecentImage.add( new RecentRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsRecentImage.add( new RecentRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsRecentImage.add( new RecentRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsRecentImage.add( new RecentRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsRecentImage.add( new RecentRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsRecentImage.add( new RecentRecyclerModel( url,"PS Films" ) );
         mRecyclerAdapterRecentImage = new RecyclerAdaptorRecent(mRecyclerModelsRecentImage);
 
 
@@ -74,14 +69,14 @@ public class RecentFragment extends Fragment {
         //The Code for CardView in recent
 
         mRecyclerModelsRecentList = new ArrayList<>();
-        mRecyclerModelsRecentList.add( new RecyclerRecent( "History" ) );
-        mRecyclerModelsRecentList.add( new RecyclerRecent( "Privacy" ) );
-        mRecyclerModelsRecentList.add( new RecyclerRecent( "Account" ) );
-        mRecyclerModelsRecentList.add( new RecyclerRecent( "Transaction" ) );
-        mRecyclerModelsRecentList.add( new RecyclerRecent( "Watch Later" ) );
+        mRecyclerModelsRecentList.add( new RecentRecyclerModel( "History" ) );
+        mRecyclerModelsRecentList.add( new RecentRecyclerModel( "Privacy" ) );
+        mRecyclerModelsRecentList.add( new RecentRecyclerModel( "Account" ) );
+        mRecyclerModelsRecentList.add( new RecentRecyclerModel( "Transaction" ) );
+        mRecyclerModelsRecentList.add( new RecentRecyclerModel( "Watch Later" ) );
 
 
-        mRecyclerAdapterRecentList = new RecyclerAdaptorList(mRecyclerModelsRecentList);
+        mRecyclerAdapterRecentList = new RecyclerAdaptorListRecent(mRecyclerModelsRecentList);
 
         mRecyclerViewRecentList = view.findViewById( R.id.list_recyler_view);
         mLinearLayoutManagerRecentList = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );

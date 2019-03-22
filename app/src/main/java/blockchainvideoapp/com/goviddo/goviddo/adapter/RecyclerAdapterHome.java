@@ -8,26 +8,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerModel;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerModel;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
+public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHome.MyViewHolder> {
 
-    private ArrayList<RecyclerModel> recyclerModels; // this data structure carries our title and description
+    private ArrayList<HomeRecyclerModel> homeRecyclerModels; // this data structure carries our title and description
 
     int mPosition;
 
-    public RecyclerAdapter(ArrayList<RecyclerModel> recyclerModels) {
-        this.recyclerModels = recyclerModels;
+    public RecyclerAdapterHome(ArrayList<HomeRecyclerModel> homeRecyclerModels) {
+        this.homeRecyclerModels = homeRecyclerModels;
     }
 
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdapterHome.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_row_layout_reviews, parent, false);
@@ -38,7 +37,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mViewHolder.context, homeRecyclerModels.get(mViewHolder.getPosition()).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -48,7 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerAdapterHome.MyViewHolder holder, int position) {
 
         mPosition = position;
 
@@ -57,7 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return recyclerModels.size();
+        return homeRecyclerModels.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

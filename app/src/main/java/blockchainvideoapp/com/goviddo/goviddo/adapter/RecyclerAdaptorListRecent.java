@@ -6,42 +6,41 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerRecent;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecentRecyclerModel;
 
-public class RecyclerAdaptorList extends RecyclerView.Adapter<RecyclerAdaptorList.MyViewHolder> {
-    private ArrayList<RecyclerRecent> recyclerModels; // this data structure carries our title and description
+public class RecyclerAdaptorListRecent extends RecyclerView.Adapter<RecyclerAdaptorListRecent.MyViewHolder> {
+    private ArrayList<RecentRecyclerModel> mRecentRecyclerModels; // this data structure carries our title and description
 
 
     int mPosition;
 
-    public RecyclerAdaptorList(ArrayList<RecyclerRecent> recyclerModels) {
-        this.recyclerModels = recyclerModels;
+    public RecyclerAdaptorListRecent(ArrayList<RecentRecyclerModel> recyclerModels) {
+        this.mRecentRecyclerModels = recyclerModels;
 
     }
 
 
 
     @Override
-    public RecyclerAdaptorList.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdaptorListRecent.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate( R.layout.recent_list, parent, false);
 
-        final RecyclerAdaptorList.MyViewHolder mViewHolder = new RecyclerAdaptorList.MyViewHolder(view);
+        final RecyclerAdaptorListRecent.MyViewHolder mViewHolder = new RecyclerAdaptorListRecent.MyViewHolder(view);
 
-       mViewHolder.textView.setText( recyclerModels.get( mPosition ).getMtext() );
+       mViewHolder.textView.setText( mRecentRecyclerModels.get( mPosition ).getMtext() );
 
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getMtext(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mViewHolder.context, mRecentRecyclerModels.get(mViewHolder.getPosition()).getMtext(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -55,16 +54,16 @@ public class RecyclerAdaptorList extends RecyclerView.Adapter<RecyclerAdaptorLis
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerAdaptorList.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerAdaptorListRecent.MyViewHolder holder, int position) {
         mPosition = position;
-        holder.textView.setText(recyclerModels.get( mPosition ).getMtext()  );
+        holder.textView.setText(mRecentRecyclerModels.get( mPosition ).getMtext()  );
 
     }
 
 
     @Override
     public int getItemCount() {
-        return recyclerModels.size();
+        return mRecentRecyclerModels.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

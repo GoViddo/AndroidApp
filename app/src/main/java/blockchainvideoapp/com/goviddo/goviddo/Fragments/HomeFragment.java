@@ -1,7 +1,6 @@
 package blockchainvideoapp.com.goviddo.goviddo.Fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,19 +28,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.activity.HomeActivity;
-import blockchainvideoapp.com.goviddo.goviddo.activity.MainActivity;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.Home_RecyclerAdapter_Cardview;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapter;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapterCardviewHome;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapterHome;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.EndlessRecyclerViewScrollListner;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerCardViewModel;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerModel;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerCardViewModel;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerModel;
 
 public class HomeFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
@@ -67,8 +61,8 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
     RecyclerView mRecyclerViewPreview;
 
-    private RecyclerAdapter mRecyclerAdapterPreview;
-    private ArrayList<RecyclerModel> mRecyclerModelsPreview;
+    private RecyclerAdapterHome mRecyclerAdapterHomePreview;
+    private ArrayList<HomeRecyclerModel> mHomeRecyclerModelsPreview;
 
     ProgressWheel mProgressWheelPreview;
 
@@ -77,8 +71,8 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
     RecyclerView mRecyclerCardview;
 
-    public static Home_RecyclerAdapter_Cardview mRecyclerAdapterCardview;
-    private ArrayList<RecyclerCardViewModel> mRecyclerModelsCardview;
+    public static RecyclerAdapterCardviewHome mRecyclerAdapterCardview;
+    private ArrayList<HomeRecyclerCardViewModel> mRecyclerModelsCardview;
 
     ProgressWheel mProgressWheelCardview;
 
@@ -107,9 +101,9 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mDemoSlider = view.findViewById(R.id.slider);
 
 
-        mRecyclerModelsPreview = new ArrayList<>();
+        mHomeRecyclerModelsPreview = new ArrayList<>();
 
-        mRecyclerAdapterPreview = new RecyclerAdapter(mRecyclerModelsPreview);
+        mRecyclerAdapterHomePreview = new RecyclerAdapterHome( mHomeRecyclerModelsPreview );
 
         mRecyclerViewPreview =  view.findViewById(R.id.loadmore_recycler_view);
 
@@ -121,7 +115,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
         mRecyclerModelsCardview = new ArrayList<>();
 
-        mRecyclerAdapterCardview = new Home_RecyclerAdapter_Cardview(mRecyclerModelsCardview);
+        mRecyclerAdapterCardview = new RecyclerAdapterCardviewHome(mRecyclerModelsCardview);
 
         mRecyclerCardview =  view.findViewById(R.id.home_video_recycler);
 
@@ -172,7 +166,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mRecyclerViewPreview.setHasFixedSize(true);
 
         //we can now set adapter to recyclerView;
-        mRecyclerViewPreview.setAdapter(mRecyclerAdapterPreview);
+        mRecyclerViewPreview.setAdapter( mRecyclerAdapterHomePreview );
 
         firstLoadData();
 
@@ -228,13 +222,13 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
                     for (int i=0; i<pushdata.size(); i++)
                     {
                         if(i%2 == 0) {
-                            mRecyclerModelsCardview.add( new RecyclerCardViewModel( pushdata.get( i ), Integer.parseInt( pushdata.get( i + 1 ) ) ) );
+                            mRecyclerModelsCardview.add( new HomeRecyclerCardViewModel( pushdata.get( i ), Integer.parseInt( pushdata.get( i + 1 ) ) ) );
                         }
                     }
 
 
 
-                    mRecyclerAdapterCardview = new Home_RecyclerAdapter_Cardview(mRecyclerModelsCardview);
+                    mRecyclerAdapterCardview = new RecyclerAdapterCardviewHome(mRecyclerModelsCardview);
 
 
                     mLayoutManagerCardview= new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
@@ -266,8 +260,8 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
         requestQueue.add( jsonObjectRequest );
 
-        // mRecyclerModelsCardview.add( new RecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
-       // mRecyclerModelsCardview.add( new RecyclerCardViewModel("Horror",5 ) );
+        // mRecyclerModelsCardview.add( new HomeRecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
+       // mRecyclerModelsCardview.add( new HomeRecyclerCardViewModel("Horror",5 ) );
 
 
 
@@ -364,8 +358,8 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
                         String title = jsonObject.getString("title");
                         String description = jsonObject.getString("description");
 
-                        mRecyclerModelsPreview.add(new RecyclerModel(title, description));
-                        mRecyclerAdapterPreview.notifyDataSetChanged();
+                        mHomeRecyclerModelsPreview.add(new HomeRecyclerModel(title, description));
+                        mRecyclerAdapterHomePreview.notifyDataSetChanged();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -456,8 +450,8 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
                         String title = jsonObject.getString("title");
                         String description = jsonObject.getString("description");
 
-                        mRecyclerModelsPreview.add(new RecyclerModel(title, description));
-                        mRecyclerAdapterPreview.notifyDataSetChanged();
+                        mHomeRecyclerModelsPreview.add(new HomeRecyclerModel(title, description));
+                        mRecyclerAdapterHomePreview.notifyDataSetChanged();
 
                     } catch (JSONException e) {
                         e.printStackTrace();

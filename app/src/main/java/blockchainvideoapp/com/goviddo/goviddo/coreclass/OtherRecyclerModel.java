@@ -1,9 +1,9 @@
 package blockchainvideoapp.com.goviddo.goviddo.coreclass;
 
-public class Other_recycler {
+public class OtherRecyclerModel {
     private String mTitle;
 
-    public Other_recycler(String title) {
+    public OtherRecyclerModel(String title) {
         this.mTitle = title;
 
     }

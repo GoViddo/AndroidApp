@@ -2,27 +2,27 @@ package blockchainvideoapp.com.goviddo.goviddo.coreclass;
 
 import android.widget.ImageView;
 
-public class Recycler_Subscription {
+public class SubscriptionRecyclerModel {
     private String mDescription;
-    private String imageView;
+    private String mImageView;
     private String mTitle;
 
-    public Recycler_Subscription(String imageView, String mTitle) {
-        this.imageView = imageView;
+    public SubscriptionRecyclerModel(String imageView, String mTitle) {
+        this.mImageView = imageView;
         this.mTitle = mTitle;
     }
 
 
     public String getImageView() {
-        return imageView;
+        return mImageView;
     }
 
     public String getmTitle() {
         return mTitle;
     }
 
-    public Recycler_Subscription(String imageView, String mTitle,String descriptiom) {
-        this.imageView = imageView;
+    public SubscriptionRecyclerModel(String imageView, String mTitle, String descriptiom) {
+        this.mImageView = imageView;
         this.mTitle = mTitle;
         this.mDescription=descriptiom;
     }

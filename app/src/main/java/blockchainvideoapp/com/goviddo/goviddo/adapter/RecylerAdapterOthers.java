@@ -16,37 +16,37 @@ import java.util.ArrayList;
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.activity.MainActivity;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.LoginUserDetails;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.Other_recycler;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.OtherRecyclerModel;
 
 
-public class RecyleAdapterOthers extends RecyclerView.Adapter<RecyleAdapterOthers.MyViewHolder> {
-private ArrayList<Other_recycler> recyclerModels; // this data structure carries our title and description
+public class RecylerAdapterOthers extends RecyclerView.Adapter<RecylerAdapterOthers.MyViewHolder> {
+private ArrayList<OtherRecyclerModel> mOtherrecyclerModels; // this data structure carries our title and description
 
 
     int mPosition;
 
-    public RecyleAdapterOthers(ArrayList<Other_recycler> recyclerModels) {
-        this.recyclerModels = recyclerModels;
+    public RecylerAdapterOthers(ArrayList<OtherRecyclerModel> recyclerModels) {
+        this.mOtherrecyclerModels = recyclerModels;
 
     }
 
 
 
     @Override
-    public RecyleAdapterOthers.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecylerAdapterOthers.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate( R.layout.others_card, parent, false);
 
-        final RecyleAdapterOthers.MyViewHolder mViewHolder = new RecyleAdapterOthers.MyViewHolder(view);
+        final RecylerAdapterOthers.MyViewHolder mViewHolder = new RecylerAdapterOthers.MyViewHolder(view);
 
-        mViewHolder.textView.setText( recyclerModels.get( mPosition ).getTitle() );
+        mViewHolder.textView.setText( mOtherrecyclerModels.get( mPosition ).getTitle() );
 
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (recyclerModels.get(mViewHolder.getPosition()).getTitle().equalsIgnoreCase("sign out"))
+                if (mOtherrecyclerModels.get(mViewHolder.getPosition()).getTitle().equalsIgnoreCase("sign out"))
                 {
                     LoginUserDetails loginUserDetails = new LoginUserDetails(mViewHolder.context);
                     loginUserDetails.removeUserInfo();
@@ -57,7 +57,7 @@ private ArrayList<Other_recycler> recyclerModels; // this data structure carries
 
                 }
 
-                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mViewHolder.context, mOtherrecyclerModels.get(mViewHolder.getPosition()).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -71,16 +71,16 @@ private ArrayList<Other_recycler> recyclerModels; // this data structure carries
     }
 
     @Override
-    public void onBindViewHolder(final RecyleAdapterOthers.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final RecylerAdapterOthers.MyViewHolder holder, int position) {
         mPosition = position;
-        holder.textView.setText(recyclerModels.get( mPosition ).getTitle()  );
+        holder.textView.setText(mOtherrecyclerModels.get( mPosition ).getTitle()  );
 
     }
 
 
     @Override
     public int getItemCount() {
-        return recyclerModels.size();
+        return mOtherrecyclerModels.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

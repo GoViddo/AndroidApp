@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyleAdapterOthers;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.Other_recycler;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.RecylerAdapterOthers;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.OtherRecyclerModel;
 
 
 public class OthersFragment extends Fragment {
@@ -24,8 +24,8 @@ public class OthersFragment extends Fragment {
 
     RecyclerView mRecyclerViewPreview;
 
-    private RecyleAdapterOthers mRecyclerAdapterPreview;
-    private ArrayList<Other_recycler> mRecyclerModelsPreview;
+    private RecylerAdapterOthers mRecyclerAdapterPreview;
+    private ArrayList<OtherRecyclerModel> mRecyclerModelsPreview;
 
     LinearLayoutManager mLayoutManager;
 
@@ -43,11 +43,11 @@ public class OthersFragment extends Fragment {
         View view = inflater.inflate( R.layout.others_fragment, container, false );
 
         mRecyclerModelsPreview = new ArrayList<>();
-        mRecyclerModelsPreview.add( new Other_recycler( "Setting" ) );
-        mRecyclerModelsPreview.add( new Other_recycler( "Sign Out" ) );
+        mRecyclerModelsPreview.add( new OtherRecyclerModel( "Setting" ) );
+        mRecyclerModelsPreview.add( new OtherRecyclerModel( "Sign Out" ) );
 
 
-        mRecyclerAdapterPreview = new RecyleAdapterOthers(mRecyclerModelsPreview);
+        mRecyclerAdapterPreview = new RecylerAdapterOthers(mRecyclerModelsPreview);
 
         mRecyclerViewPreview = view.findViewById( R.id.recycle);
         mLayoutManager = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );

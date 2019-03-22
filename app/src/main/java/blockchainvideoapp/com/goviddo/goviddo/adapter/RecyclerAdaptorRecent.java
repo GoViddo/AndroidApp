@@ -1,30 +1,27 @@
 package blockchainvideoapp.com.goviddo.goviddo.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.Other_recycler;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerRecent;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecentRecyclerModel;
 
 public class RecyclerAdaptorRecent extends RecyclerView.Adapter<RecyclerAdaptorRecent.MyViewHolder> {
-    private ArrayList<RecyclerRecent> recyclerModels; // this data structure carries our title and description
+    private ArrayList<RecentRecyclerModel> mRecentRecyclerModels; // this data structure carries our title and description
 
 
     int mPosition;
 
-    public RecyclerAdaptorRecent(ArrayList<RecyclerRecent> recyclerModels) {
-        this.recyclerModels = recyclerModels;
+    public RecyclerAdaptorRecent(ArrayList<RecentRecyclerModel> recyclerModels) {
+        this.mRecentRecyclerModels = recyclerModels;
 
     }
 
@@ -43,7 +40,7 @@ public class RecyclerAdaptorRecent extends RecyclerView.Adapter<RecyclerAdaptorR
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getmTextFirst(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mViewHolder.context, mRecentRecyclerModels.get(mViewHolder.getPosition()).getmTextFirst(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -66,7 +63,7 @@ public class RecyclerAdaptorRecent extends RecyclerView.Adapter<RecyclerAdaptorR
 
     @Override
     public int getItemCount() {
-        return recyclerModels.size();
+        return mRecentRecyclerModels.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

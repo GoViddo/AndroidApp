@@ -13,31 +13,31 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.Recycler_Subscription;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.SubscriptionRecyclerModel;
 
-public class RecycleAdapterSubscriptionCard extends RecyclerView.Adapter<RecycleAdapterSubscriptionCard.MyViewHolder> {
+public class RecyclerAdapterSubscriptionCard extends RecyclerView.Adapter<RecyclerAdapterSubscriptionCard.MyViewHolder> {
 
-private ArrayList<Recycler_Subscription> recyclerModels; // this data structure carries our title and description
+private ArrayList<SubscriptionRecyclerModel> mSubscriptionrecyclerModels; // this data structure carries our title and description
 
         int mPosition;
 
-public RecycleAdapterSubscriptionCard(ArrayList<Recycler_Subscription> recyclerModels) {
-        this.recyclerModels = recyclerModels;
+public RecyclerAdapterSubscriptionCard(ArrayList<SubscriptionRecyclerModel> recyclerModels) {
+        this.mSubscriptionrecyclerModels = recyclerModels;
         }
 
 @Override
-public RecycleAdapterSubscriptionCard.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+public RecyclerAdapterSubscriptionCard.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate( R.layout.recycleview_subscribe_cardvideo, parent, false);
 
-final RecycleAdapterSubscriptionCard.MyViewHolder mViewHolder = new RecycleAdapterSubscriptionCard.MyViewHolder(view);
+final RecyclerAdapterSubscriptionCard.MyViewHolder mViewHolder = new RecyclerAdapterSubscriptionCard.MyViewHolder(view);
 
 
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
 @Override
 public void onClick(View view) {
-        Toast.makeText(mViewHolder.context, recyclerModels.get(mViewHolder.getPosition()).getmTitle(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mViewHolder.context, mSubscriptionrecyclerModels.get(mViewHolder.getPosition()).getmTitle(), Toast.LENGTH_SHORT).show();
         }
         });
 
@@ -47,11 +47,11 @@ public void onClick(View view) {
         }
 
 @Override
-public void onBindViewHolder(final RecycleAdapterSubscriptionCard.MyViewHolder holder, int position) {
+public void onBindViewHolder(final RecyclerAdapterSubscriptionCard.MyViewHolder holder, int position) {
 
         mPosition = position;
 
-        holder.title.setText( recyclerModels.get( mPosition ).getmTitle() );
+        holder.title.setText( mSubscriptionrecyclerModels.get( mPosition ).getmTitle() );
 
 
         }
@@ -59,7 +59,7 @@ public void onBindViewHolder(final RecycleAdapterSubscriptionCard.MyViewHolder h
 
 @Override
 public int getItemCount() {
-        return recyclerModels.size();
+        return mSubscriptionrecyclerModels.size();
         }
 
 class MyViewHolder extends RecyclerView.ViewHolder {

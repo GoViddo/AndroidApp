@@ -8,16 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pnikosis.materialishprogress.ProgressWheel;
-
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecycleAdapterSubscription;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecycleAdapterSubscriptionCard;
-import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapter;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecyclerModel;
-import blockchainvideoapp.com.goviddo.goviddo.coreclass.Recycler_Subscription;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapterSubscription;
+import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapterSubscriptionCard;
+import blockchainvideoapp.com.goviddo.goviddo.coreclass.SubscriptionRecyclerModel;
 
 public class SubscriptionFragment extends Fragment {
 
@@ -28,8 +24,8 @@ public class SubscriptionFragment extends Fragment {
 
     RecyclerView mRecyclerViewPreview;
 
-    private RecycleAdapterSubscription mRecyclerAdapterPreview;
-    private ArrayList<Recycler_Subscription> mRecyclerModelsPreview;
+    private RecyclerAdapterSubscription mRecyclerAdapterPreview;
+    private ArrayList<SubscriptionRecyclerModel> mRecyclerModelsPreview;
 
     LinearLayoutManager mLayoutManager;
 
@@ -37,8 +33,8 @@ public class SubscriptionFragment extends Fragment {
 
     RecyclerView mRecyclerView;
 
-    private RecycleAdapterSubscriptionCard mRecyclerAdapter;
-    private ArrayList<Recycler_Subscription> mRecyclerModels;
+    private RecyclerAdapterSubscriptionCard mRecyclerAdapter;
+    private ArrayList<SubscriptionRecyclerModel> mRecyclerModels;
 
     LinearLayoutManager mLinearLayoutManager;
 
@@ -57,17 +53,17 @@ public class SubscriptionFragment extends Fragment {
 
        String url ="https://pngimage.net/genie-aladdin-png-6/";
 
-        mRecyclerModelsPreview = new ArrayList<Recycler_Subscription>();
+        mRecyclerModelsPreview = new ArrayList<SubscriptionRecyclerModel>();
 
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerModelsPreview.add( new Recycler_Subscription( url,"PS Films" ) );
-        mRecyclerAdapterPreview = new RecycleAdapterSubscription(mRecyclerModelsPreview);
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerModelsPreview.add( new SubscriptionRecyclerModel( url,"PS Films" ) );
+        mRecyclerAdapterPreview = new RecyclerAdapterSubscription(mRecyclerModelsPreview);
 
         mRecyclerViewPreview =  view.findViewById(R.id.recycle_subscribe_roundimg);
 
@@ -85,18 +81,18 @@ public class SubscriptionFragment extends Fragment {
 
         String urlcard ="https://pngimage.net/genie-aladdin-png-6/";
 
-        mRecyclerModels = new ArrayList<Recycler_Subscription>();
+        mRecyclerModels = new ArrayList<SubscriptionRecyclerModel>();
 
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ) );
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerModels.add( new Recycler_Subscription( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
-        mRecyclerAdapter = new RecycleAdapterSubscriptionCard(mRecyclerModels);
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ) );
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerModels.add( new SubscriptionRecyclerModel( urlcard,"Happy Season 01 Ep01","The Goal is Near" ));
+        mRecyclerAdapter = new RecyclerAdapterSubscriptionCard(mRecyclerModels);
 
         mRecyclerView =  view.findViewById(R.id.recycle_subscribe_cardvideo);
 
