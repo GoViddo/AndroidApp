@@ -1,5 +1,8 @@
 package blockchainvideoapp.com.goviddo.goviddo.adapter;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import blockchainvideoapp.com.goviddo.goviddo.Fragments.RecyclerRecentFragment;
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.RecentRecyclerModel;
 
@@ -41,6 +45,9 @@ public class RecyclerAdaptorListRecent extends RecyclerView.Adapter<RecyclerAdap
             @Override
             public void onClick(View view) {
                 Toast.makeText(mViewHolder.context, mRecentRecyclerModels.get(mViewHolder.getPosition()).getMtext(), Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 
