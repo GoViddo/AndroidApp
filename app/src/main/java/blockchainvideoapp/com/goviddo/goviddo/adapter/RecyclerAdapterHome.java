@@ -15,11 +15,17 @@ import java.util.ArrayList;
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerModel;
 
+
+
+
+
 public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHome.MyViewHolder> {
 
     private ArrayList<HomeRecyclerModel> homeRecyclerModels; // this data structure carries our title and description
 
     int mPosition;
+
+    String mUrl;
 
     public RecyclerAdapterHome(ArrayList<HomeRecyclerModel> homeRecyclerModels) {
         this.homeRecyclerModels = homeRecyclerModels;
