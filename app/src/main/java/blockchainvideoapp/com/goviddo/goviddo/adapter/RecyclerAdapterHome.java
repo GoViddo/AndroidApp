@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
@@ -37,7 +39,7 @@ public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHom
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mViewHolder.context, homeRecyclerModels.get(mViewHolder.getPosition()).getTitle(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mViewHolder.context, homeRecyclerModels.get(mViewHolder.getPosition()).getmVdoCipherId(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -50,6 +52,8 @@ public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHom
     public void onBindViewHolder(final RecyclerAdapterHome.MyViewHolder holder, int position) {
 
         mPosition = position;
+
+        Picasso.with(holder.context).load(homeRecyclerModels.get(holder.getPosition()).getmSliderImage()).into(holder.roundedImageView);
 
     }
 

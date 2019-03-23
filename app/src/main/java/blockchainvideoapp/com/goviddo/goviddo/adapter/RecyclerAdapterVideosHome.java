@@ -40,7 +40,7 @@ public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdap
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVideoid(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVdoCipherid(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -77,7 +77,6 @@ public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdap
 
 
             ImageView = view.findViewById(R.id.video_image);
-            Picasso.with( mContext ).load( mHomeCardrecyclerModels.get( mPosition ).getUrl() ).into( ImageView  );
             cardView = view.findViewById(R.id.video_image_card_view);
 
 

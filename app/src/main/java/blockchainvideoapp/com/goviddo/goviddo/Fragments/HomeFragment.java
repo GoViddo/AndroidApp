@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
     // you can change this to fit your specifications.
     // When you change this, there will be no need to update your php page,
     // as php will be ordered what to load and limit by android java
-    private static final int LOAD_LIMIT = 15;
+    private static int LOAD_LIMIT = 15;
 
     // last id to be loaded from php page,
     // we will need to keep track or database id field to know which id was loaded last
@@ -187,7 +187,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue( getActivity() );
+        final RequestQueue requestQueue = Volley.newRequestQueue( getActivity() );
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.GET, "http://178.128.173.51:3000/config",  new Response.Listener<JSONObject>() {
             @Override
@@ -196,6 +196,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
                 try {
 
                     String bannerIimageCount = response.getString( "bannerImgCount" );
+                    LOAD_LIMIT = Integer.parseInt(response.getString("previewCount"));
                     String categories = response.getString( "categories" );
                     String[] aa = categories.split( "\\:",-1 );
                     ArrayList<String> pushdata = new ArrayList<>(  );
@@ -316,9 +317,23 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
     // this function will load 15 items as indicated in the LOAD_LIMIT variable field
     private void firstLoadData() {
 
-        String url = "http://goviddo.tech/goviddo_lazyloader/loadmore.php?limit="+LOAD_LIMIT;
+        String url = "http://178.128.173.51:3000/getPreviewData";
+        //System.out.println(url);
+
+        JSONObject params = new JSONObject();
+        try {
 
 
+            params.put( "previewMaxCount", LOAD_LIMIT );
+            params.put( "previewLastId", 0 );
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        System.out.println(params.toString());
         itShouldLoadMore = false; // lock this guy,(itShouldLoadMore) to make sure,
         // user will not load more when volley is processing another request
         // only load more when  volley is free
@@ -329,42 +344,49 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         progressDialog.show();
 
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, new Response.Listener<JSONArray>() {
+
+
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
+                System.out.println(response.toString());
                 progressDialog.dismiss();
                 // remember here we are in the main thread, that means,
                 //volley has finished processing request, and we have our response.
                 // What else are you waiting for? update itShouldLoadMore = true;
                 itShouldLoadMore = true;
 
-                if (response.length() <= 0) {
-                    // no data available
-                    Toast.makeText(getActivity(), "No data available", Toast.LENGTH_SHORT).show();
+                try {
 
-                    return;
-                }
 
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
+                    String msg = response.getString("message");
+                    JSONArray data = response.getJSONArray("data");
+                    for (int i=0; i<data.length(); i++)
+                    {
+                       JSONObject jsonObject = data.getJSONObject(i);
 
-                        // please note this last id how we have updated it
-                        // if there are 4 items for example, and we are ordering in descending order,
-                        // then last id will be 1. This is because outside a loop, we will get the last
-                        // value [Thanks to JAVA]
+                        int videoId = jsonObject.getInt("video_id");
 
-                        lastId = jsonObject.getString("id");
-                        String title = jsonObject.getString("title");
-                        String description = jsonObject.getString("description");
+                        if (i==0)
+                        {
+                            lastId = String.valueOf(videoId);
+                        }
 
-                        mHomeRecyclerModelsPreview.add(new HomeRecyclerModel(title, description));
+                        String sliderImage = jsonObject.getString("slider_image");
+                        String shortenText = jsonObject.getString("shorten_text");
+                        String vdoCipherId = jsonObject.getString("vdo_cipher_id");
+
+                        mHomeRecyclerModelsPreview.add(new HomeRecyclerModel(videoId, sliderImage, shortenText, vdoCipherId));
+
+
+
                         mRecyclerAdapterHomePreview.notifyDataSetChanged();
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
 
                 // please note how we have updated our last id variable which is initially 0 (String)
                 // outside the loop, java will return the last value, so here it will
@@ -397,8 +419,21 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
     private void loadMore() {
 
+        String url = "http://178.128.173.51:3000/getPreviewData";
 
-        String url = "http://goviddo.tech/goviddo_lazyloader/loadmoreaction.php?lastId="+ lastId+"&limit="+LOAD_LIMIT;
+
+        JSONObject params = new JSONObject();
+        try {
+
+
+            params.put( "previewMaxCount", LOAD_LIMIT );
+            params.put( "previewLastId", lastId );
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
 
         // our php page starts loading from 250 to 1, because we have [ORDER BY id DESC]
         // So until you clearly understand everything, for this tutorial use ORDER BY ID DESC

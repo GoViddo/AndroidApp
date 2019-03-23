@@ -152,7 +152,7 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
 
     // this function will load 15 items as indicated in the LOAD_LIMIT variable field
-    private void firstLoadData(final Context context, String videoGenere, int videoLimit, int videoLastId, final ArrayList<HomeRecyclerCardViewModel> homeRecyclerCardViewModel, final RecyclerAdapterVideosHome recycler_adapterVideosHome) {
+    private void firstLoadData(final Context context, String videoGenere, int videoLimit, final int videoLastId, final ArrayList<HomeRecyclerCardViewModel> homeRecyclerCardViewModel, final RecyclerAdapterVideosHome recycler_adapterVideosHome) {
 
         String url = "http://178.128.173.51:3000/getVideoData";
         System.out.println(url);
@@ -213,8 +213,11 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String home_image_url = jsonObject1.getString("home_image");
+                                String shorttext = jsonObject1.getString("shorten_text");
+                                String videoCipherId = jsonObject1.getString("vdo_cipher_id");
+                                int videoid = jsonObject1.getInt("video_id");
 
-                                homeRecyclerCardViewModel.add(new HomeRecyclerCardViewModel(home_image_url,10));
+                                homeRecyclerCardViewModel.add(new HomeRecyclerCardViewModel(home_image_url, shorttext, videoCipherId, videoid));
 
 
                             }

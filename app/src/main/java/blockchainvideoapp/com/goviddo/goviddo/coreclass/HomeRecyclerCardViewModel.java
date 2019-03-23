@@ -4,8 +4,8 @@ import android.widget.ImageView;
 
 public class HomeRecyclerCardViewModel {
 
-    String name, mHeading, mUrl, mShort_text;
-    int mCount, mVdo_cipherid, mVideoid;
+    String name, mHeading, mUrl, mShort_text,mVdo_cipherid;
+    int mCount, mVideoid;
 
 
     public HomeRecyclerCardViewModel(String heading, int count) {
@@ -13,7 +13,7 @@ public class HomeRecyclerCardViewModel {
         this.mCount = count;
     }
 
-    public HomeRecyclerCardViewModel(String url, String short_text, int vdo_cipherid, int videoid) {
+    public HomeRecyclerCardViewModel(String url, String short_text, String vdo_cipherid, int videoid) {
         this.mUrl = url;
         this.mShort_text = short_text;
         this.mVdo_cipherid = vdo_cipherid;
@@ -29,7 +29,7 @@ public class HomeRecyclerCardViewModel {
         return mShort_text;
     }
 
-    public int getVdoCipherid() {
+    public String getVdoCipherid() {
         return mVdo_cipherid;
     }
 
@@ -41,7 +41,7 @@ public class HomeRecyclerCardViewModel {
         this.mShort_text = short_text;
     }
 
-    public void setVdoCipherid(int vdo_cipherid) {
+    public void setVdoCipherid(String vdo_cipherid) {
         this.mVdo_cipherid = vdo_cipherid;
     }
 
