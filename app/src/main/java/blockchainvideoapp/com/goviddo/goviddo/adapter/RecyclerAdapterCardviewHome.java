@@ -2,6 +2,7 @@ package blockchainvideoapp.com.goviddo.goviddo.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import java.util.Map;
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.EndlessRecyclerViewScrollListner;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerCardViewModel;
+import blockchainvideoapp.com.goviddo.goviddo.vdocipher.OnlinePlayerActivity;
+import blockchainvideoapp.com.goviddo.goviddo.vdocipher.Utils;
 
 public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAdapterCardviewHome.MyViewHolder> {
 
@@ -61,12 +64,6 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
 
 
-        mViewHolder.textView.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText( mViewHolder.context, mHomeRecyclerModels.get( mViewHolder.getPosition() ).getHeading(), Toast.LENGTH_SHORT ).show();
-            }
-        } );
 
 
         // inflate your custom row layout here
@@ -152,7 +149,7 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
 
     // this function will load 15 items as indicated in the LOAD_LIMIT variable field
-    private void firstLoadData(final Context context, String videoGenere, int videoLimit, int videoLastId, final ArrayList<HomeRecyclerCardViewModel> homeRecyclerCardViewModel, final RecyclerAdapterVideosHome recycler_adapterVideosHome) {
+    private void firstLoadData(final Context context, String videoGenere, int videoLimit, final int videoLastId, final ArrayList<HomeRecyclerCardViewModel> homeRecyclerCardViewModel, final RecyclerAdapterVideosHome recycler_adapterVideosHome) {
 
         String url = "http://178.128.173.51:3000/getVideoData";
         System.out.println(url);
@@ -213,8 +210,11 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String home_image_url = jsonObject1.getString("home_image");
+                                String shorttext = jsonObject1.getString("shorten_text");
+                                String videoCipherId = jsonObject1.getString("vdo_cipher_id");
+                                int videoid = jsonObject1.getInt("video_id");
 
-                                homeRecyclerCardViewModel.add(new HomeRecyclerCardViewModel(home_image_url,10));
+                                homeRecyclerCardViewModel.add(new HomeRecyclerCardViewModel(home_image_url, shorttext, videoCipherId, videoid));
 
 
                             }

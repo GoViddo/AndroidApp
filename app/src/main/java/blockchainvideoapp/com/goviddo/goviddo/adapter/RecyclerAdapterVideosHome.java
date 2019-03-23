@@ -1,6 +1,7 @@
 package blockchainvideoapp.com.goviddo.goviddo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.coreclass.HomeRecyclerCardViewModel;
+import blockchainvideoapp.com.goviddo.goviddo.vdocipher.OnlinePlayerActivity;
+import blockchainvideoapp.com.goviddo.goviddo.vdocipher.Utils;
 
 public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdapterVideosHome.MyViewHolder> {
 
@@ -40,7 +43,10 @@ public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdap
         mViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVideoid(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(  mContext, OnlinePlayerActivity.class );
+                mContext.startActivity(intent );
+                Utils.vdociper_id = mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVdoCipherid();
+                //Toast.makeText(mContext, mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVdoCipherid(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -77,7 +83,6 @@ public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdap
 
 
             ImageView = view.findViewById(R.id.video_image);
-            Picasso.with( mContext ).load( mHomeCardrecyclerModels.get( mPosition ).getUrl() ).into( ImageView  );
             cardView = view.findViewById(R.id.video_image_card_view);
 
 

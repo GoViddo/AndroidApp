@@ -38,6 +38,9 @@
 
 
         </activity>
+        <activity
+            android:name=".vdocipher.OnlinePlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".activity.RegistrationActivity"
