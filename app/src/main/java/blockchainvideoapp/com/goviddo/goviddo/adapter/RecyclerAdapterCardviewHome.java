@@ -3,6 +3,7 @@ package blockchainvideoapp.com.goviddo.goviddo.adapter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,15 +43,26 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
 
 
-    private RecyclerAdapterVideosHome mRecyclerAdapterVideo;
-    private ArrayList<HomeRecyclerCardViewModel> mRecyclerModelsVideo;
+    int mLastIdOfVideoForLoadMoreOptionOriginals = 0;
+    int mLastIdOfVideoForLoadMoreOptionDrama = 0;
+    int mLastIdOfVideoForLoadMoreOptionRomantic = 0;
+
+
+
+    private RecyclerAdapterVideosHome home_video_adapter1, home_video_adapter2, home_video_adapter3;
+    ArrayList<HomeRecyclerCardViewModel> mRecyclerModelsVideo, mRecyclerModelsVideoGoViddoOriginals, mRecyclerModelsVideoGoViddoDrama, mRecyclerModelsVideoGoViddoRomantic;;
     LinearLayoutManager mLinearLayoutManagerVideo;
+
+
+
+
 
     String url1 ="https://pngimage.net/genie-aladdin-png-6/";
 
 
     public RecyclerAdapterCardviewHome(ArrayList<HomeRecyclerCardViewModel> recyclerModels) {
         this.mHomeRecyclerModels = recyclerModels;
+        //System.out.println(recyclerModels.size());
     }
 
     @Override
@@ -73,49 +85,53 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
     @Override
     public void onBindViewHolder(final RecyclerAdapterCardviewHome.MyViewHolder holder, int position) {
 
-        mPosition = position;
+        holder.textView.setText(mHomeRecyclerModels.get( holder.getPosition() ).getHeading()  );
 
-
-
-
-
-        mRecyclerModelsVideo = new ArrayList<>();
-
-
-            holder.textView.setText(mHomeRecyclerModels.get( mPosition ).getHeading()  );
-
-            mRecyclerAdapterVideo = new RecyclerAdapterVideosHome(mRecyclerModelsVideo, holder.context);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(holder.context, LinearLayoutManager.HORIZONTAL, false);
-
         holder.recyclerView.setLayoutManager(mLayoutManager);
         holder.recyclerView.setHasFixedSize(true);
 
-        holder.recyclerView.setAdapter(mRecyclerAdapterVideo);
 
-        firstLoadData(holder.context, mHomeRecyclerModels.get( mPosition ).getHeading(),  mHomeRecyclerModels.get( mPosition ).getCount(), 0, mRecyclerModelsVideo, mRecyclerAdapterVideo );
+        if(mHomeRecyclerModels.get( holder.getPosition()).getHeading().equalsIgnoreCase("GoViddo Originals")) {
+            home_video_adapter1 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoOriginals, holder.context);
+            holder.recyclerView.setAdapter(home_video_adapter1);
+            firstLoadData(holder.context, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), mHomeRecyclerModels.get(holder.getPosition()).getCount(), mLastIdOfVideoForLoadMoreOptionOriginals,mRecyclerModelsVideoGoViddoDrama,mRecyclerModelsVideoGoViddoRomantic, home_video_adapter1, mHomeRecyclerModels.get(holder.getPosition()).getHeading(),  holder.recyclerView);
+        }
+        else if(mHomeRecyclerModels.get( holder.getPosition()).getHeading().equalsIgnoreCase("Drama")){
+            home_video_adapter2 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoDrama, holder.context);
+            holder.recyclerView.setAdapter(home_video_adapter2);
+            firstLoadData(holder.context, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), mHomeRecyclerModels.get(holder.getPosition()).getCount(), mLastIdOfVideoForLoadMoreOptionDrama, mRecyclerModelsVideoGoViddoDrama, mRecyclerModelsVideoGoViddoRomantic, home_video_adapter2, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), holder.recyclerView);
+        }
+        else{
+            home_video_adapter3 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoRomantic, holder.context);
+            holder.recyclerView.setAdapter(home_video_adapter3);
+            firstLoadData(holder.context, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), mHomeRecyclerModels.get(holder.getPosition()).getCount(), mLastIdOfVideoForLoadMoreOptionRomantic, mRecyclerModelsVideoGoViddoDrama, mRecyclerModelsVideoGoViddoRomantic, home_video_adapter3, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), holder.recyclerView);
+        }
 
-
-
-        holder.recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListner((LinearLayoutManager) mLayoutManager) {
+        holder.recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListner((LinearLayoutManager) holder.recyclerView.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                //  Toast.makeText(getActivity(),"LAst",Toast.LENGTH_LONG).show();
-                firstLoadData(holder.context, mHomeRecyclerModels.get( mPosition ).getHeading(), mHomeRecyclerModels.get( mPosition ).getCount(), 17, mRecyclerModelsVideo, mRecyclerAdapterVideo );
+
+                if(mHomeRecyclerModels.get( holder.getPosition()).getHeading().equalsIgnoreCase("GoViddo Originals")) {
+                    home_video_adapter1 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoOriginals, holder.context);
+                    holder.recyclerView.setAdapter(home_video_adapter1);
+                    firstLoadData(holder.context, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), mHomeRecyclerModels.get(holder.getPosition()).getCount(), mLastIdOfVideoForLoadMoreOptionOriginals,mRecyclerModelsVideoGoViddoDrama,mRecyclerModelsVideoGoViddoRomantic, home_video_adapter1, mHomeRecyclerModels.get(holder.getPosition()).getHeading(),  holder.recyclerView);
+                }
+                else if(mHomeRecyclerModels.get( holder.getPosition()).getHeading().equalsIgnoreCase("Drama")){
+                    home_video_adapter2 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoDrama, holder.context);
+                    holder.recyclerView.setAdapter(home_video_adapter2);
+                    firstLoadData(holder.context, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), mHomeRecyclerModels.get(holder.getPosition()).getCount(), mLastIdOfVideoForLoadMoreOptionDrama, mRecyclerModelsVideoGoViddoDrama, mRecyclerModelsVideoGoViddoRomantic, home_video_adapter2, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), holder.recyclerView);
+                }
+                else{
+                    home_video_adapter3 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoRomantic, holder.context);
+                    holder.recyclerView.setAdapter(home_video_adapter3);
+                    firstLoadData(holder.context, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), mHomeRecyclerModels.get(holder.getPosition()).getCount(), mLastIdOfVideoForLoadMoreOptionRomantic, mRecyclerModelsVideoGoViddoDrama, mRecyclerModelsVideoGoViddoRomantic, home_video_adapter3, mHomeRecyclerModels.get(holder.getPosition()).getHeading(), holder.recyclerView);
+                }
+
 
             }
         });
 
-
-
-        mRecyclerAdapterVideo.notifyDataSetChanged();
-
-
-            mLinearLayoutManagerVideo = new LinearLayoutManager(holder.context, LinearLayoutManager.HORIZONTAL, false);
-            holder.recyclerView.setLayoutManager(mLinearLayoutManagerVideo);
-            holder.recyclerView.setHasFixedSize(true);
-
-            //we can now set adapter to recyclerView;
-            Toast.makeText(holder.context, "size"+mHomeRecyclerModels.size(), Toast.LENGTH_SHORT).show();
 
 
     }
@@ -140,6 +156,13 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
             context = view.getContext();
           recyclerView = view.findViewById( R.id.video_recycler );
 
+            mRecyclerModelsVideo = new ArrayList<>();
+
+            mRecyclerModelsVideoGoViddoOriginals = new ArrayList<>();
+            mRecyclerModelsVideoGoViddoDrama = new ArrayList<>();
+            mRecyclerModelsVideoGoViddoRomantic = new ArrayList<>();
+
+
 
         }
 
@@ -149,10 +172,11 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
 
     // this function will load 15 items as indicated in the LOAD_LIMIT variable field
-    private void firstLoadData(final Context context, String videoGenere, int videoLimit, final int videoLastId, final ArrayList<HomeRecyclerCardViewModel> homeRecyclerCardViewModel, final RecyclerAdapterVideosHome recycler_adapterVideosHome) {
+    private void firstLoadData(final Context context, String videoGenere, int videoLimit, int videoLastId, final ArrayList<HomeRecyclerCardViewModel> recyclerCardViewModelGoVidoDrama, final ArrayList<HomeRecyclerCardViewModel> recyclerCardViewModelGoViddoRomantic, final RecyclerAdapterVideosHome home_video_adapter, final String type, final RecyclerView recyclerView) {
 
         String url = "http://178.128.173.51:3000/getVideoData";
         System.out.println(url);
+
 
         JSONObject params = new JSONObject();
         try {
@@ -167,6 +191,8 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
             e.printStackTrace();
 
         }
+
+        System.out.println(url+"/n"+params);
 
 
         System.out.println(params.toString());
@@ -184,49 +210,88 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println(response.toString());
                 progressDialog.dismiss();
                 // remember here we are in the main thread, that means,
                 //volley has finished processing request, and we have our response.
                 // What else are you waiting for? update itShouldLoadMore = true;
                 itShouldLoadMore = true;
+                System.out.println(response.toString());
 
-                    try {
+                try {
 
 
-                        // please note this last id how we have updated it
-                        // if there are 4 items for example, and we are ordering in descending order,
-                        // then last id will be 1. This is because outside a loop, we will get the last
-                        // value [Thanks to JAVA]
+                    // please note this last id how we have updated it
+                    // if there are 4 items for example, and we are ordering in descending order,
+                    // then last id will be 1. This is because outside a loop, we will get the last
+                    // value [Thanks to JAVA]
 
-                        String msg = response.getString("message");
+                    String msg = response.getString("message");
 
-                        if(msg.equalsIgnoreCase("success"))
-                        {
-                            JSONArray jsonArray = response.getJSONArray("data");
+                    if(msg.equalsIgnoreCase("success"))
+                    {
+                        JSONArray jsonArray = response.getJSONArray("data");
 
-                            for (int i=0; i<jsonArray.length(); i++)
+
+                        for (int i=0; i<jsonArray.length(); i++) {
+
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            String home_image_url = jsonObject1.getString("home_image");
+                            String shorten_test = jsonObject1.getString("shorten_text");
+                            String video_cipher_id = jsonObject1.getString("vdo_cipher_id");
+                            int video_id = jsonObject1.getInt("video_id");
+                            String video_genere = jsonObject1.getString("video_genere");
+
+                            if (video_genere.equalsIgnoreCase("GoViddo Originals"))
                             {
-
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String home_image_url = jsonObject1.getString("home_image");
-                                String shorttext = jsonObject1.getString("shorten_text");
-                                String videoCipherId = jsonObject1.getString("vdo_cipher_id");
-                                int videoid = jsonObject1.getInt("video_id");
-
-                                homeRecyclerCardViewModel.add(new HomeRecyclerCardViewModel(home_image_url, shorttext, videoCipherId, videoid));
-
-
+                                System.out.println(response.toString());
+                                mRecyclerModelsVideoGoViddoOriginals.add(new HomeRecyclerCardViewModel(home_image_url,shorten_test, video_cipher_id, video_id, video_genere));
+                                mLastIdOfVideoForLoadMoreOptionOriginals = video_id;
                             }
+                            else  if (video_genere.equalsIgnoreCase("Drama"))
+                            {
+                                mRecyclerModelsVideoGoViddoDrama.add(new HomeRecyclerCardViewModel(home_image_url,shorten_test, video_cipher_id, video_id, video_genere));
+                                mLastIdOfVideoForLoadMoreOptionDrama = video_id;
+                            }
+                            else{
+                                mRecyclerModelsVideoGoViddoRomantic.add(new HomeRecyclerCardViewModel(home_image_url,shorten_test, video_cipher_id, video_id, video_genere));
+                                mLastIdOfVideoForLoadMoreOptionRomantic = video_id;
+                            }
+
 
                         }
 
 
-                        recycler_adapterVideosHome.notifyDataSetChanged();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+
+
+                    if (type.equalsIgnoreCase("GoViddo Originals")) {
+                        System.out.println("Size = "+mRecyclerModelsVideoGoViddoOriginals.size());
+                        home_video_adapter1 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoOriginals, context);
+                        recyclerView.setAdapter(home_video_adapter1);
+                        home_video_adapter1.notifyDataSetChanged();
+                    }
+                    else if(type.equalsIgnoreCase("Drama"))
+                    {
+                        System.out.println("Size = "+mRecyclerModelsVideoGoViddoDrama.size());
+                        home_video_adapter2 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoDrama, context);
+                        recyclerView.setAdapter(home_video_adapter2);
+                        home_video_adapter2.notifyDataSetChanged();
+
+                    }
+                    else{
+                        System.out.println("Size = "+mRecyclerModelsVideoGoViddoRomantic.size());
+                        home_video_adapter3 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoRomantic, context);
+                        recyclerView.setAdapter(home_video_adapter3);
+                        home_video_adapter3.notifyDataSetChanged();
+
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
 
                 // please note how we have updated our last id variable which is initially 0 (String)
@@ -256,6 +321,7 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
 
     }
+
 
 
 

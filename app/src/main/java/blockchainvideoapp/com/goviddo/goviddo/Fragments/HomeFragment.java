@@ -223,6 +223,8 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
                     for (int i=0; i<pushdata.size(); i++)
                     {
                         if(i%2 == 0) {
+                            Toast.makeText( getContext(),  pushdata.get( i ), Toast.LENGTH_SHORT ).show();
+                            System.out.println( pushdata.get( i ));
                             mRecyclerModelsCardview.add( new HomeRecyclerCardViewModel( pushdata.get( i ), Integer.parseInt( pushdata.get( i + 1 ) ) ) );
                         }
                     }

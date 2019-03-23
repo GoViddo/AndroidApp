@@ -4,7 +4,7 @@ import android.widget.ImageView;
 
 public class HomeRecyclerCardViewModel {
 
-    String name, mHeading, mUrl, mShort_text,mVdo_cipherid;
+    String name, mHeading, mUrl, mShort_text,mVdo_cipherid , mVideogenere;
     int mCount, mVideoid;
 
 
@@ -13,11 +13,12 @@ public class HomeRecyclerCardViewModel {
         this.mCount = count;
     }
 
-    public HomeRecyclerCardViewModel(String url, String short_text, String vdo_cipherid, int videoid) {
+    public HomeRecyclerCardViewModel(String url, String short_text, String vdo_cipherid, int videoid,String video_genere) {
         this.mUrl = url;
         this.mShort_text = short_text;
         this.mVdo_cipherid = vdo_cipherid;
         this.mVideoid = videoid;
+        this.mVideogenere = video_genere;
 
     }
 
