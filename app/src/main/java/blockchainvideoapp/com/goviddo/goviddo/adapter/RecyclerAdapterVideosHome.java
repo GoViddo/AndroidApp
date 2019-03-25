@@ -29,7 +29,7 @@ public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdap
     public RecyclerAdapterVideosHome(ArrayList<HomeRecyclerCardViewModel> recyclerModels, Context context) {
         this.mHomeCardrecyclerModels = recyclerModels;
         mContext = context;
-        System.out.println(recyclerModels.size());
+
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RecyclerAdapterVideosHome extends RecyclerView.Adapter<RecyclerAdap
                 Intent intent = new Intent(  mContext, OnlinePlayerActivity.class );
                 mContext.startActivity(intent );
                 Utils.vdociper_id = mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVdoCipherid();
-                //Toast.makeText(mContext, mHomeCardrecyclerModels.get(mViewHolder.getPosition()).getVdoCipherid(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

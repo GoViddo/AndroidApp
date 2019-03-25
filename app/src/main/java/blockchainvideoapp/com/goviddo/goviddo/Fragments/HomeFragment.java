@@ -3,6 +3,7 @@ package blockchainvideoapp.com.goviddo.goviddo.Fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import blockchainvideoapp.com.goviddo.goviddo.R;
 import blockchainvideoapp.com.goviddo.goviddo.adapter.RecyclerAdapterCardviewHome;
@@ -81,6 +84,9 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
 
 
+    BaseSliderView.OnSliderClickListener referenceData = this;
+    ViewPagerEx.OnPageChangeListener refernceOnPagechange = this;
+    HashMap<String,String> url_maps,url_refresh;
 
 
 
@@ -101,6 +107,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mDemoSlider = view.findViewById(R.id.slider);
 
 
+
         mHomeRecyclerModelsPreview = new ArrayList<>();
 
         mRecyclerAdapterHomePreview = new RecyclerAdapterHome( mHomeRecyclerModelsPreview );
@@ -108,11 +115,6 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mRecyclerViewPreview =  view.findViewById(R.id.loadmore_recycler_view);
 
         mProgressWheelPreview =  view.findViewById(R.id.progress_wheel);
-
-
-
-        //Initialization  For CardView Below Round Img
-
         mRecyclerModelsCardview = new ArrayList<>();
 
         mRecyclerAdapterCardview = new RecyclerAdapterCardviewHome(mRecyclerModelsCardview);
@@ -120,44 +122,100 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         mRecyclerCardview =  view.findViewById(R.id.home_video_recycler);
 
 
+        final SwipeRefreshLayout swipeRefreshLayout=view.findViewById(R.id.refreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+
+                mRecyclerModelsCardview = new ArrayList<>();
+
+                mRecyclerAdapterCardview = new RecyclerAdapterCardviewHome(mRecyclerModelsCardview);
+
+                String configuration_url = "http://178.128.173.51:3000/config";
 
 
 
+                final RequestQueue requestQueue = Volley.newRequestQueue( getActivity() );
+                final RequestQueue requestQueueForBannerImages = Volley.newRequestQueue(getActivity());
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.GET, configuration_url,  new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            String bannerIimageCount = response.getString( "bannerImgCount" );
+                            String previewListMaxLimit = response.getString("previewCount");
+
+
+                            String categories = response.getString( "categories" );
+                            String[] aa = categories.split( "\\:",-1 );
+                            ArrayList<String> pushdata = new ArrayList<>(  );
+                            for (int i=1; i<aa.length; i++)
+                            {
+
+                                if(i%2 == 1)
+                                {
+                                    String[] namearr = aa[i].split( ",", -1 );
+                                    String namedisp = namearr[0].replaceAll( "\\'" ,"");
+
+                                    //System.out.println(namedisp);
+                                    pushdata.add( namedisp );
+                                }
+                                else{
+                                    String[] countarr = aa[i].split( "\\}", -1 );
+                                    String countdisp = countarr[0];
+                                    //System.out.println(countdisp);
+                                    pushdata.add( countdisp );
+                                }
+
+                            }
+
+                            for (int i=0; i<pushdata.size(); i++)
+                            {
+                                if(i%2 == 0) {
+                                    mRecyclerModelsCardview.add( new HomeRecyclerCardViewModel( pushdata.get( i ), Integer.parseInt( pushdata.get( i + 1 ) ) ) );
+                                }
+                            }
 
 
 
-
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("INCREDIBLES 2", "http://www.movienewsletters.net/media/slider/1200x444/219672.jpg");
-        url_maps.put("AVENGERS INFINITY WAR", "https://latimeshighschool.files.wordpress.com/2018/06/share-1.jpg");
-        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        url_maps.put("Game of Thrones", "https://gamesofthronesfact.files.wordpress.com/2014/04/game-of-thrones-season-4.jpg");
-
-        for(String name : url_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(getActivity());
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mDemoSlider.addSlider(textSliderView);
+                            mRecyclerAdapterCardview = new RecyclerAdapterCardviewHome(mRecyclerModelsCardview);
 
 
+                            mLayoutManagerCardview= new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
+
+                            mRecyclerCardview.setLayoutManager( mLayoutManagerCardview );
+
+                            //we can now set adapter to recyclerView;
+                            mRecyclerCardview.setAdapter( mRecyclerAdapterCardview );
+                            mRecyclerAdapterCardview.notifyDataSetChanged();
+                              swipeRefreshLayout.setRefreshing(false);
+
+                              //System.out.println(categories.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
 
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Tablet);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText( getActivity(), "Network Error Home Fragment", Toast.LENGTH_SHORT ).show();
+
+                    }
+                } );
+
+                requestQueue.add( jsonObjectRequest );
+
+
+            }
+        });
+
+
 
 
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -168,28 +226,19 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         //we can now set adapter to recyclerView;
         mRecyclerViewPreview.setAdapter( mRecyclerAdapterHomePreview );
 
-        firstLoadData();
-
-
-
-        mRecyclerViewPreview.addOnScrollListener(new EndlessRecyclerViewScrollListner( mLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-              //  Toast.makeText(getActivity(),"LAst",Toast.LENGTH_LONG).show();
-                loadMore();
-            }
-        });
-
 
         //CardView Adapter Code
 
         String configuration_url = "http://178.128.173.51:3000/config";
+        final String banner_image_url = "http://178.128.173.51:3000/getSliderImageData";
 
 
 
         final RequestQueue requestQueue = Volley.newRequestQueue( getActivity() );
+        final RequestQueue requestQueueForBannerImages = Volley.newRequestQueue(getActivity());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.GET, "http://178.128.173.51:3000/config",  new Response.Listener<JSONObject>() {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.GET, configuration_url,  new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -197,6 +246,112 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
                     String bannerIimageCount = response.getString( "bannerImgCount" );
                     LOAD_LIMIT = Integer.parseInt(response.getString("previewCount"));
+
+                    JSONObject bannerImageRequestData = new JSONObject();
+                    bannerImageRequestData.put("sliderMaxCount", bannerIimageCount);
+                    System.out.println(bannerImageRequestData.toString());
+
+
+                    firstLoadData();
+
+
+
+                    mRecyclerViewPreview.addOnScrollListener(new EndlessRecyclerViewScrollListner( mLayoutManager) {
+                        @Override
+                        public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                            //  Toast.makeText(getActivity(),"LAst",Toast.LENGTH_LONG).show();
+                            loadMore();
+                        }
+                    });
+
+
+                    JsonObjectRequest jsonObjectRequestBannerImages = new JsonObjectRequest(Request.Method.POST, banner_image_url, bannerImageRequestData, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            url_maps = new HashMap<String, String>();
+
+
+                            System.out.println(response.toString());
+
+                            try {
+                                String message = response.getString("message");
+
+                                if (message.equalsIgnoreCase("success"))
+                                {
+
+                                    JSONArray jsonArrayBannerImageData = response.getJSONArray("data");
+
+                                    for (int i =0; i< jsonArrayBannerImageData.length(); i++)
+                                    {
+
+                                        JSONObject jsonObjectSingleImageData = jsonArrayBannerImageData.getJSONObject(i);
+                                        System.out.println(jsonArrayBannerImageData.toString());
+                                        String imageUrl = jsonObjectSingleImageData.getString("slider_image");
+                                        int videoId = jsonObjectSingleImageData.getInt("video_id");
+                                        String videocipher_id = jsonObjectSingleImageData.getString("vdo_cipher_id" );
+
+
+                                        url_maps.put(videocipher_id, imageUrl);
+
+                                    }
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+                            for(String name : url_maps.keySet()){
+                                TextSliderView textSliderView = new TextSliderView(getActivity());
+                                // initialize a SliderLayout
+                                textSliderView
+                                        .image(url_maps.get(name))
+                                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                                        .setOnSliderClickListener(referenceData);
+
+                                //add your extra information
+                                textSliderView.bundle(new Bundle());
+                                textSliderView.getBundle()
+                                        .putString("extra",name);
+
+                                mDemoSlider.addSlider(textSliderView);
+
+
+
+
+                            }
+                            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Tablet);
+                            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                            mDemoSlider.setDuration(4000);
+                            mDemoSlider.addOnPageChangeListener(refernceOnPagechange);
+
+
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText( getActivity(), "Please check internet connection", Toast.LENGTH_SHORT ).show();
+
+                        }
+                    }){
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put( "Content-Type", "application/json" );
+                            return headers;
+                        }
+                    };
+
+                    requestQueueForBannerImages.add(jsonObjectRequestBannerImages);
+
+
+
+
                     String categories = response.getString( "categories" );
                     String[] aa = categories.split( "\\:",-1 );
                     ArrayList<String> pushdata = new ArrayList<>(  );
@@ -263,19 +418,6 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
 
         requestQueue.add( jsonObjectRequest );
 
-        // mRecyclerModelsCardview.add( new HomeRecyclerCardViewModel( "Popular on GoViddo",url,5 ) );
-       // mRecyclerModelsCardview.add( new HomeRecyclerCardViewModel("Horror",5 ) );
-
-
-
-
-
-
-
-
-
-
-
         return view;
     }
 
@@ -326,7 +468,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
         try {
 
 
-            params.put( "previewMaxCount", LOAD_LIMIT );
+            params.put( "previewMaxCount", 5 );
             params.put( "previewLastId", 0 );
 
 
@@ -436,7 +578,7 @@ public class HomeFragment extends Fragment implements BaseSliderView.OnSliderCli
             e.printStackTrace();
 
         }
-
+        Toast.makeText( getContext(), params.toString(), Toast.LENGTH_SHORT ).show();
         // our php page starts loading from 250 to 1, because we have [ORDER BY id DESC]
         // So until you clearly understand everything, for this tutorial use ORDER BY ID DESC
         // so we will do something like this to the php page

@@ -35,7 +35,7 @@ public class OnlinePlayerActivity extends AppCompatActivity implements VdoPlayer
     private TextView eventLog;
     private String eventLogString = "";
 
-    private boolean playWhenReady = false;
+    private boolean playWhenReady = true;
     private int currentOrientation;
 
     private volatile String mOtp;

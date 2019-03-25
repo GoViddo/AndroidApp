@@ -62,7 +62,7 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
     public RecyclerAdapterCardviewHome(ArrayList<HomeRecyclerCardViewModel> recyclerModels) {
         this.mHomeRecyclerModels = recyclerModels;
-        //System.out.println(recyclerModels.size());
+
     }
 
     @Override
@@ -192,10 +192,6 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
         }
 
-        System.out.println(url+"/n"+params);
-
-
-        System.out.println(params.toString());
 
         itShouldLoadMore = false; // lock this guy,(itShouldLoadMore) to make sure,
         // user will not load more when volley is processing another request
@@ -243,7 +239,7 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
                             if (video_genere.equalsIgnoreCase("GoViddo Originals"))
                             {
-                                System.out.println(response.toString());
+
                                 mRecyclerModelsVideoGoViddoOriginals.add(new HomeRecyclerCardViewModel(home_image_url,shorten_test, video_cipher_id, video_id, video_genere));
                                 mLastIdOfVideoForLoadMoreOptionOriginals = video_id;
                             }
@@ -265,21 +261,21 @@ public class RecyclerAdapterCardviewHome extends RecyclerView.Adapter<RecyclerAd
 
 
                     if (type.equalsIgnoreCase("GoViddo Originals")) {
-                        System.out.println("Size = "+mRecyclerModelsVideoGoViddoOriginals.size());
+
                         home_video_adapter1 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoOriginals, context);
                         recyclerView.setAdapter(home_video_adapter1);
                         home_video_adapter1.notifyDataSetChanged();
                     }
                     else if(type.equalsIgnoreCase("Drama"))
                     {
-                        System.out.println("Size = "+mRecyclerModelsVideoGoViddoDrama.size());
+
                         home_video_adapter2 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoDrama, context);
                         recyclerView.setAdapter(home_video_adapter2);
                         home_video_adapter2.notifyDataSetChanged();
 
                     }
                     else{
-                        System.out.println("Size = "+mRecyclerModelsVideoGoViddoRomantic.size());
+
                         home_video_adapter3 = new RecyclerAdapterVideosHome(mRecyclerModelsVideoGoViddoRomantic, context);
                         recyclerView.setAdapter(home_video_adapter3);
                         home_video_adapter3.notifyDataSetChanged();

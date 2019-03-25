@@ -80,7 +80,7 @@ public class Utils {
                 break;
             case VdoPlayer.STATE_READY:
                 stateName = "STATE_READY";
-                break;
+                return "playWhenReady " +  "true" + ", " + stateName;
             case VdoPlayer.STATE_BUFFERING:
                 stateName = "STATE_BUFFERING";
                 break;
