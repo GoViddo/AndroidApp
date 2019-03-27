@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity"
+    android:layout_gravity="center_vertical"
+    android:background="@mipmap/login_screen">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewLoginLogo"
+                android:src="@drawable/logo_splash1"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:scaleType="center"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:textColor="@color/normalTextColor"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/textInputLayoutUserName"
+                    android:textColorHint="@color/normalTextColor"
+                    app:errorTextAppearance="@color/errorTextColor"
+                    app:hintTextAppearance="@color/normalTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/edtUserName"
+                        android:inputType="textEmailAddress"
+                        android:textColorHint="@color/normalTextColor"
+                        android:textColor="@color/normalTextColor"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:textColor="@color/normalTextColor"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/textInputLayoutUserPassword"
+                    android:textColorHint="@color/normalTextColor"
+                    app:errorTextAppearance="@color/errorTextColor"
+                    app:hintTextAppearance="@color/backgroundColorNormal">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/edtUserPassword"
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/normalTextColor"
+                        android:textColor="@color/normalTextColor"
+                        android:padding="5dp"
+                        android:gravity="center_vertical" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Login"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:textColor="@color/normalTextColor"
+                android:background="@color/normalButtonColor"
+                android:id="@+id/btnLogin"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textRegisterNewUser"
+                android:text="@string/new_register"
+                android:layout_margin="20dp"
+                android:textColor="@color/normalTextColor"
+                android:textAlignment="center"
+                android:clickable="true"
+                android:textIsSelectable="false"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>
